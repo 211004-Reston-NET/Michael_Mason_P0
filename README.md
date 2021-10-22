@@ -1,29 +1,29 @@
 ![alt text](https://github.com/211004-Reston-NET/Michael_Mason_P0/blob/edge/db_diagram.png?raw=true)
 
-###DAL
+### DAL
 - db => entity
 - entity => repository
 
-###BAL
+### BAL
 - repository => logic
 
-###Model
+### Model
 - logic => validation
 
-###UI
+### UI
 - validation => interaction
 
 <=>
 
-###UI
+### UI
 - interaction => validation
 
-###Model
+### Model
 - validation => logic
 
-###BAL
+### BAL
 - logic => repository
 
-###DAL
+### DAL
 - repository => entity
 - entity => db
