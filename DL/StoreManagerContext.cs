@@ -1,6 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using System.Text.Json;
+using System.IO;
+using System.Collections.Generic;
 
 #nullable disable
 
@@ -28,10 +31,15 @@ namespace DL
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            string _jsonString = File.ReadAllText("../../../stuff/secret.json");
+            List<string> fields = JsonSerializer.Deserialize<List<string>>(_jsonString);
+            string server = fields[0];
+            string username = fields[1];
+            string pass = fields[2];
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                
+                optionsBuilder.UseSqlServer($"Server={server};Initial Catalog=StoreManager;Persist Security Info=False;User ID={username};Password={pass};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             }
         }
 
