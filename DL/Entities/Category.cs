@@ -13,8 +13,8 @@ namespace DL
         }
 
         public int Id { get; private set; }
-        public int CatNumber { get; private set; }
-        public string CatName { get; private set; }
+        public int CatNumber { get; set; }
+        public string CatName { get; set; }
 
         public virtual ICollection<ProdCat> ProdCats { get; private set; }
     }

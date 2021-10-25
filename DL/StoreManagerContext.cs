@@ -31,7 +31,7 @@ namespace DL
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string _jsonString = File.ReadAllText("../../../stuff/secret.json");
+            string _jsonString = File.ReadAllText("../../../Projects/stuff/secret.json");
             List<string> fields = JsonSerializer.Deserialize<List<string>>(_jsonString);
             string server = fields[0];
             string username = fields[1];
