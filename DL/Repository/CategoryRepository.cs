@@ -23,19 +23,17 @@ namespace DL
             return dbQuery;
         }
 
-        public override void Delete(Category entity)
-        {
-            _context.Set<Category>().Remove(entity);
-        }
-
-        public override int GetHighestKey()
-        {
-            return StoreManagerContext.Categories.Max(p => p.Id);
-        }
-
         public int GetHighestCatNum()
         {
             return StoreManagerContext.Categories.Max(p => p.CatNumber);
+        }
+
+        public Category GetByCatNum(int catNum)
+        {
+            IEnumerable<Category> dbQuery = (from c in StoreManagerContext.Categories
+                                where c.CatNumber == catNum
+                                select c);
+            return dbQuery.First();
         }
     }
 }

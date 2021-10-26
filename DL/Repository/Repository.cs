@@ -9,10 +9,12 @@ namespace DL
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         public readonly DbContext _context;
+
         public Repository(DbContext context)
         {
             _context = context;
         }
+
         public TEntity Get(int id)
         {
             return _context.Set<TEntity>().Find(id);
@@ -38,11 +40,6 @@ namespace DL
         public virtual void Delete(TEntity entity)
         {
             _context.Set<TEntity>().Remove(entity);
-        }
-
-        public virtual int GetHighestKey()
-        {
-            return 0;
         }
     }
 }

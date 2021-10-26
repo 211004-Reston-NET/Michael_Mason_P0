@@ -17,7 +17,5 @@ namespace DL
 
         void Delete(TEntity entity);
         //void RemoveRange(IEnumerable<TEntity> entities);
-
-        int GetHighestKey();
     }
 }

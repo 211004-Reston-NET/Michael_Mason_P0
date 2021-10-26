@@ -3,10 +3,8 @@ using System.Collections.Generic;
 
 namespace DL
 {
-    public interface ICategoryUnitOfWork : IDisposable
+    public interface ICategoryUOW : IUnitOfWork<Category>
     {
         ICategoryRepository categories { get; }
-
-        int Complete();
     }
 }
