@@ -7,7 +7,9 @@ namespace UI
 {
     public class CategoryList : IMenu
     {
+        private static string exceptionMessage;
         public static int PKey;
+
         private ICategoryBL _categoryBL;
         public CategoryList(ICategoryBL catBL)
         {
@@ -25,6 +27,12 @@ namespace UI
                 Console.WriteLine($"{category.PKey} | {category.CatName}");
             }
             Console.WriteLine("----------------");
+            if (exceptionMessage != null)
+            {
+                Console.WriteLine(exceptionMessage);
+                Console.WriteLine("----------------");
+                exceptionMessage = null;
+            }
             Console.WriteLine("[0] Back to Categories Menu");
             Console.WriteLine("[1] Select Category");
         }
@@ -37,14 +45,21 @@ namespace UI
                 case "0":
                     return MenuType.CategoryMenu;
                 case "1":
-                    Console.WriteLine("Enter Category ID");
-                    string userInput = Console.ReadLine();
-                    PKey = int.Parse(userInput);
+                        try
+                        {
+                            Console.WriteLine("Enter Category ID");
+                            string userInput = Console.ReadLine();
+                            PKey = int.Parse(userInput);
+                        }
+                        catch (FormatException)
+                        {
+                            exceptionMessage = "You must enter an ID";
+                            return MenuType.CategoryList;
+                        }
                     return MenuType.CategoryView;
+
                 default:
-                    Console.WriteLine("INVALID SELECTION");
-                    Console.WriteLine("Press [enter] to continue");
-                    Console.ReadLine();
+                    exceptionMessage = "INVALID SELECTION";
                     return MenuType.CategoryList;
             }
         }

@@ -7,6 +7,7 @@ namespace UI
     public class CategoryCreate : IMenu
     {
         private static CategoryModel newModel = new CategoryModel();
+        private static string exceptionMessage;
         private ICategoryBL _catBL;
         public CategoryCreate(ICategoryBL catbl)
         {
@@ -19,9 +20,16 @@ namespace UI
             Console.WriteLine("-----------------");
             Console.WriteLine($"Name: {newModel.CatName}");
             Console.WriteLine("-----------------");
+            if (exceptionMessage != null)
+            {
+                Console.WriteLine(exceptionMessage);
+                Console.WriteLine("-----------------");
+                exceptionMessage = null;
+            }
             Console.WriteLine("[0] Go Back");
             Console.WriteLine("[1] Input Name");
             Console.WriteLine("[2] Save Category");
+            Console.WriteLine("-----------------");
         }
 
         public MenuType UserSelection()
@@ -32,17 +40,29 @@ namespace UI
                 case "0":
                     return MenuType.CategoryMenu;
                 case "1":
-                    Console.WriteLine("Enter the Category Name");
-                    newModel.CatName = Console.ReadLine();
+                    try
+                    {
+                        Console.WriteLine("Enter the Category Name");
+                        newModel.CatName = Console.ReadLine();
+                    }
+                    catch (Exception e)
+                    {
+                        exceptionMessage = e.Message;
+                    }
                     return MenuType.CategoryCreate;
                 case "2":
-                    _catBL.CreateModel(newModel);
-                    newModel.CatName = null;
+                    try
+                    {
+                        _catBL.CreateModel(newModel);
+                        newModel.CatName = Console.ReadLine();
+                    }
+                    catch (NullReferenceException e)
+                    {
+                        exceptionMessage = e.Message;
+                    }
                     return MenuType.CategoryCreate;
                 default:
-                    Console.WriteLine(".....INVALID SELECTION...");
-                    Console.WriteLine("Press [enter] to continue");
-                    Console.ReadLine();
+                    exceptionMessage = ".....INVALID SELECTION...";
                     return MenuType.CategoryCreate;
             }
         }

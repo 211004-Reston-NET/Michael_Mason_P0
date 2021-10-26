@@ -6,6 +6,7 @@ namespace UI
 {
     public class CategoryView : IMenu
     {
+        private static string exceptionMessage;
         public static CategoryModel catModel;
         private static ICategoryBL _catBL;
         public CategoryView(ICategoryBL catBL)
@@ -28,6 +29,12 @@ namespace UI
             Console.WriteLine("Category View");
             Console.WriteLine($"Category: {catModel.PKey} | {catModel.CatName}");
             Console.WriteLine("-------------");
+            if (exceptionMessage != null)
+            {
+                Console.WriteLine(exceptionMessage);
+                Console.WriteLine("-------------");
+                exceptionMessage = null;
+            }
             Console.WriteLine("[0] Go Back");
             Console.WriteLine("[1] Modify Name");
         }
@@ -40,13 +47,18 @@ namespace UI
                 case "0":
                     return MenuType.CategoryMenu;
                 case "1":
-                    Console.WriteLine("Enter new Name");
-                    catModel.CatName = Console.ReadLine();
+                        try
+                        {
+                            Console.WriteLine("Enter new Name");
+                            catModel.CatName = Console.ReadLine();
+                        }
+                        catch (Exception e)
+                        {
+                            exceptionMessage = e.Message;
+                        }
                     return MenuType.CategoryUpdate;
                 default:
-                    Console.WriteLine(".....INVALID SELECTION...");
-                    Console.WriteLine("Press [enter] to continue");
-                    Console.ReadLine();
+                    exceptionMessage = ".....INVALID SELECTION...";
                     return MenuType.CategoryMenu;
             }
         }

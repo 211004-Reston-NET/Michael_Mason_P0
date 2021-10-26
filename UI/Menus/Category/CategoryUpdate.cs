@@ -5,6 +5,7 @@ namespace UI
 {
     public class CategoryUpdate : IMenu
     {
+        private static string exceptionMessage;
         private ICategoryBL _catBL;
         public CategoryUpdate(ICategoryBL catBL)
         {
@@ -15,6 +16,12 @@ namespace UI
 
         public MenuType UserSelection()
         {
+            if (exceptionMessage != null)
+            {
+                Console.WriteLine(exceptionMessage);
+                Console.WriteLine("----------------------");
+                exceptionMessage = null;
+            }
             Console.WriteLine($"Are you sure you want to update {CategoryView.catModel.CatName}?");
             Console.WriteLine("[Y] or [N]");
             string userSelection = Console.ReadLine().ToLower();
@@ -26,10 +33,8 @@ namespace UI
                 case "n":
                     return MenuType.MainMenu;
                 default:
-                    Console.WriteLine("Please input a valid response!");
-                    Console.WriteLine("Press Enter to continue");
-                    Console.ReadLine();
-                    return MenuType.ExitMenu;      
+                    exceptionMessage = "INVALID SELECTION";
+                    return MenuType.CategoryUpdate;      
             }
         }
     }

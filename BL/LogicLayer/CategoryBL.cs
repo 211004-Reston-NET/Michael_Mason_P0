@@ -10,10 +10,10 @@ namespace BL
         public CategoryBL(CategoryRepository context) : base(context)
         {
         }
-        
+
         public CategoryRepository CatRepo
-        { 
-            get {return _context as CategoryRepository;}
+        {
+            get { return _context as CategoryRepository; }
         }
 
         public CategoryModel MapEntityToModel(Category entity, CategoryModel model)
@@ -25,16 +25,16 @@ namespace BL
 
         public Category MapModelToEntity(Category entity, CategoryModel model)
         {
-            
+
             entity.CatName = model.CatName;
             return entity;
         }
 
         public CategoryModel GetModel(int id)
         {
-            var entity = _context.Get(id);
-            var model = MapEntityToModel(entity, new CategoryModel());
-            return model;
+                var entity = _context.Get(id);
+                var model = MapEntityToModel(entity, new CategoryModel());
+                return model;
         }
 
         public List<CategoryModel> GetAllModel()
@@ -50,6 +50,10 @@ namespace BL
 
         public List<CategoryModel> FindModel(string query)
         {
+            if (query == null)
+            {
+                throw new NullReferenceException("You must enter a search term");
+            }
             IEnumerable<Category> cats = _context.Find(query);
             List<CategoryModel> result = new List<CategoryModel>();
             foreach (Category cat in cats)
@@ -61,12 +65,20 @@ namespace BL
 
         public void CreateModel(CategoryModel model)
         {
+            if (model.CatName == null)
+            {
+                throw new NullReferenceException("You must enter a name");
+            }
             var entity = MapModelToEntity(new Category(), model);
             CatRepo.Create(entity);
         }
 
         public void UpdateModel(CategoryModel model)
         {
+            if (model.CatName == null)
+            {
+                throw new NullReferenceException("You must enter a name");
+            }
             Category entity = CatRepo.Get(model.PKey);
             entity = MapModelToEntity(entity, model);
             CatRepo.Update(entity);
