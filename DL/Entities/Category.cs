@@ -12,10 +12,9 @@ namespace DL
             ProdCats = new HashSet<ProdCat>();
         }
 
-        public int Id { get; private set; }
-        public int CatNumber { get; set; }
+        public int Id { get; set; }
         public string CatName { get; set; }
 
-        public virtual ICollection<ProdCat> ProdCats { get; private set; }
+        public virtual ICollection<ProdCat> ProdCats { get; set; }
     }
 }

@@ -12,7 +12,6 @@ namespace UI
             Console.WriteLine("[1] Create a Category");
             Console.WriteLine("[2] List all Categories");
             Console.WriteLine("[3] Search for a Category");
-            Console.WriteLine("[4] View a Category");
         }
 
         public MenuType UserSelection()
@@ -28,8 +27,6 @@ namespace UI
                     return MenuType.CategoryList;
                 case "3":
                     return MenuType.CategorySearch;
-                case "4":
-                    return MenuType.CategoryView;
                 default:
                     Console.WriteLine("INVALID SELECTION");
                     Console.WriteLine("Press [enter] to continue.");

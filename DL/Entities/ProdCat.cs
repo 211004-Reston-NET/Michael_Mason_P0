@@ -7,11 +7,11 @@ namespace DL
 {
     public partial class ProdCat
     {
-        public int Id { get; private set; }
-        public int ProdId { get; private set; }
-        public int CatId { get; private set; }
+        public int Id { get; set; }
+        public int ProdId { get; set; }
+        public int CatId { get; set; }
 
-        public virtual Category Cat { get; private set; }
-        public virtual Product Prod { get; private set; }
+        public virtual Category Cat { get; set; }
+        public virtual Product Prod { get; set; }
     }
 }

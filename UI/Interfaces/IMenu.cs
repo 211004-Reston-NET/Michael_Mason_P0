@@ -14,7 +14,6 @@ namespace UI
         CategorySearch,
         CategoryView,
         CategoryUpdate,
-        CategoryDelete
     }
 
     public interface IMenu

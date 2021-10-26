@@ -2,18 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BL;
-using DL;
 using Models;
 
 namespace UI
 {
     public class CategorySearch : IMenu
     {
-        public static string catNum;
-        private CategoryBL _categoryBL;
-        public CategorySearch(CategoryBL categoryBL)
+        public static int PKey;
+        private ICategoryBL _catBL;
+        public CategorySearch(ICategoryBL catBL)
         {
-            _categoryBL = categoryBL;
+            _catBL = catBL;
         }
 
         public void Menu()
@@ -21,10 +20,10 @@ namespace UI
             Console.WriteLine("Enter Category Name");
             Console.WriteLine("-------------------");
 
+            IEnumerable<CategoryModel> categories;
             string userInput = Console.ReadLine();
-            IEnumerable<Category> categories;
-
-            categories = _categoryBL.Find(userInput);
+            
+            categories = _catBL.FindModel(userInput);
 
             Console.WriteLine("-------------------");
 
@@ -34,9 +33,9 @@ namespace UI
             }
             else
             {
-                foreach (Category category in categories)
+                foreach (CategoryModel category in categories)
                 {
-                    Console.WriteLine($"{category.CatNumber} | {category.CatName}");
+                    Console.WriteLine($"{category.PKey} | {category.CatName}");
                 }
             }
 
@@ -57,7 +56,8 @@ namespace UI
                     return MenuType.CategorySearch;
                 case "2":
                     Console.WriteLine("Enter Category Number");
-                    catNum = Console.ReadLine();
+                    string userInput = Console.ReadLine();
+                    PKey = int.Parse(userInput);
                     return MenuType.CategoryView;
                 default:
                     Console.WriteLine("INVALID SELECTION");

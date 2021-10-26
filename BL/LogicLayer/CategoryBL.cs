@@ -16,63 +16,60 @@ namespace BL
             get {return _context as CategoryRepository;}
         }
 
-
         public CategoryModel MapEntityToModel(Category entity, CategoryModel model)
         {
-            entity.CatNumber = model.CatNumber;
-            entity.CatName = model.CatName;
+            model.PKey = entity.Id;
+            model.CatName = entity.CatName;
             return model;
         }
 
         public Category MapModelToEntity(Category entity, CategoryModel model)
         {
-            model.CatNumber = entity.CatNumber;
-            model.CatName = entity.CatName;
+            
+            entity.CatName = model.CatName;
             return entity;
         }
 
-        public int GetHighestCatNum()
+        public CategoryModel GetModel(int id)
         {
-            return CatRepo.GetHighestCatNum();
+            var entity = _context.Get(id);
+            var model = MapEntityToModel(entity, new CategoryModel());
+            return model;
         }
 
-        public void Create(CategoryModel model)
+        public List<CategoryModel> GetAllModel()
         {
-            using (var unitOfWork = new CategoryUOW(new CategoryRepository(new StoreManagerContext())))
+            IEnumerable<Category> cats = _context.GetAll();
+            List<CategoryModel> result = new List<CategoryModel>();
+            foreach (var item in cats)
             {
-                var entity = MapModelToEntity(new Category(), model);
-                entity.CatNumber = GetHighestCatNum() + 1;
-                CatRepo.Create(entity);
-                unitOfWork.Complete();
+                result.Add(GetModel(item.Id));
             }
+            return result;
         }
 
-        public void Delete(CategoryModel model)
+        public List<CategoryModel> FindModel(string query)
         {
-            using (var unitOfWork = new CategoryUOW(new CategoryRepository(new StoreManagerContext())))
+            IEnumerable<Category> cats = _context.Find(query);
+            List<CategoryModel> result = new List<CategoryModel>();
+            foreach (Category cat in cats)
             {
-                var entity = MapModelToEntity(new Category(), model);
-                IEnumerable<Category> all = base.GetAll();
-                foreach (Category item in all)
-                {
-                    if (item.CatNumber > entity.CatNumber)
-                    {
-                        item.CatNumber -= 1;
-                    }
-                }
-                CatRepo.Delete(entity);
-                unitOfWork.Complete();
+                result.Add(GetModel(cat.Id));
             }
+            return result;
         }
 
-        public void Update(CategoryModel model)
+        public void CreateModel(CategoryModel model)
         {
-            using (var unitOfWork = new CategoryUOW(new CategoryRepository(new StoreManagerContext())))
-            {
-                Category entity = CatRepo.GetByCatNum(model.CatNumber);
-                var newEntity = MapModelToEntity(entity, model);
-                unitOfWork.Complete();
-            }
+            var entity = MapModelToEntity(new Category(), model);
+            CatRepo.Create(entity);
+        }
+
+        public void UpdateModel(CategoryModel model)
+        {
+            Category entity = CatRepo.Get(model.PKey);
+            entity = MapModelToEntity(entity, model);
+            CatRepo.Update(entity);
         }
     }
 }

@@ -22,18 +22,5 @@ namespace DL
                             select c);
             return dbQuery;
         }
-
-        public int GetHighestCatNum()
-        {
-            return StoreManagerContext.Categories.Max(p => p.CatNumber);
-        }
-
-        public Category GetByCatNum(int catNum)
-        {
-            IEnumerable<Category> dbQuery = (from c in StoreManagerContext.Categories
-                                where c.CatNumber == catNum
-                                select c);
-            return dbQuery.First();
-        }
     }
 }

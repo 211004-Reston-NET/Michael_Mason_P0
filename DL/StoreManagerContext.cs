@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using System.Text.Json;
-using System.IO;
-using System.Collections.Generic;
 
 #nullable disable
 
@@ -20,26 +20,23 @@ namespace DL
         {
         }
 
-        public virtual DbSet<Category> Categories { get; private set; }
-        public virtual DbSet<Customer> Customers { get; private set; }
-        public virtual DbSet<Inventory> Inventories { get; private set; }
-        public virtual DbSet<LineItem> LineItems { get; private set; }
-        public virtual DbSet<ProdCat> ProdCats { get; private set; }
-        public virtual DbSet<Product> Products { get; private set; }
-        public virtual DbSet<SOrder> SOrders { get; private set; }
-        public virtual DbSet<Storefront> Storefronts { get; private set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<Inventory> Inventories { get; set; }
+        public virtual DbSet<LineItem> LineItems { get; set; }
+        public virtual DbSet<ProdCat> ProdCats { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<SOrder> SOrders { get; set; }
+        public virtual DbSet<Storefront> Storefronts { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             string _jsonString = File.ReadAllText("../../stuff/secret.json");
             List<string> fields = JsonSerializer.Deserialize<List<string>>(_jsonString);
-            string server = fields[0];
-            string username = fields[1];
-            string pass = fields[2];
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer($"Server={server};Initial Catalog=StoreManager;Persist Security Info=False;User ID={username};Password={pass};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+                optionsBuilder.UseSqlServer($"Server={fields[0]};Initial Catalog=StoreManager;Persist Security Info=False;User ID={fields[1]};Password={fields[2]};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             }
         }
 
@@ -58,8 +55,6 @@ namespace DL
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("cat_name");
-
-                entity.Property(e => e.CatNumber).HasColumnName("cat_number");
             });
 
             modelBuilder.Entity<Customer>(entity =>
@@ -107,13 +102,13 @@ namespace DL
                     .WithMany(p => p.Inventories)
                     .HasForeignKey(d => d.ProdId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__inventory__prod___5AB9788F");
+                    .HasConstraintName("FK__inventory__prod___719CDDE7");
 
                 entity.HasOne(d => d.Store)
                     .WithMany(p => p.Inventories)
                     .HasForeignKey(d => d.StoreId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__inventory__store__59C55456");
+                    .HasConstraintName("FK__inventory__store__70A8B9AE");
             });
 
             modelBuilder.Entity<LineItem>(entity =>
@@ -132,13 +127,13 @@ namespace DL
                     .WithMany(p => p.LineItems)
                     .HasForeignKey(d => d.OrderId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__line_item__order__55F4C372");
+                    .HasConstraintName("FK__line_item__order__6CD828CA");
 
                 entity.HasOne(d => d.Prod)
                     .WithMany(p => p.LineItems)
                     .HasForeignKey(d => d.ProdId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__line_item__prod___56E8E7AB");
+                    .HasConstraintName("FK__line_item__prod___6DCC4D03");
             });
 
             modelBuilder.Entity<ProdCat>(entity =>
@@ -155,13 +150,13 @@ namespace DL
                     .WithMany(p => p.ProdCats)
                     .HasForeignKey(d => d.CatId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__prod_cat__cat_id__4B7734FF");
+                    .HasConstraintName("FK__prod_cat__cat_id__625A9A57");
 
                 entity.HasOne(d => d.Prod)
                     .WithMany(p => p.ProdCats)
                     .HasForeignKey(d => d.ProdId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__prod_cat__prod_i__4A8310C6");
+                    .HasConstraintName("FK__prod_cat__prod_i__6166761E");
             });
 
             modelBuilder.Entity<Product>(entity =>
@@ -207,13 +202,13 @@ namespace DL
                     .WithMany(p => p.SOrders)
                     .HasForeignKey(d => d.CustId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__s_order__cust_id__531856C7");
+                    .HasConstraintName("FK__s_order__cust_id__69FBBC1F");
 
                 entity.HasOne(d => d.Store)
                     .WithMany(p => p.SOrders)
                     .HasForeignKey(d => d.StoreId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__s_order__store_i__5224328E");
+                    .HasConstraintName("FK__s_order__store_i__690797E6");
             });
 
             modelBuilder.Entity<Storefront>(entity =>

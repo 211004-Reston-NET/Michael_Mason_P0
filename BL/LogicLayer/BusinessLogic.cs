@@ -27,5 +27,20 @@ namespace BL
         {
             return _context.GetAll();
         }
+
+        public void Create(TEntity entity)
+        {
+            _context.Create(entity);
+        }
+
+        public void Delete(TEntity entity)
+        {
+            _context.Delete(entity);
+        }
+
+        public void Update(TEntity entity)
+        {
+            _context.Update(entity);
+        }
     }
 }

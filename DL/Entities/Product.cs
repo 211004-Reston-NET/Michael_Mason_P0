@@ -15,13 +15,13 @@ namespace DL
         }
 
         public int Id { get; set; }
-        public int? ProdNumber { get; private set; }
-        public string ProdName { get; private set; }
-        public decimal ProdPrice { get; private set; }
-        public string? ProdDescription { get; private set; }
+        public int? ProdNumber { get; set; }
+        public string ProdName { get; set; }
+        public decimal ProdPrice { get; set; }
+        public string ProdDescription { get; set; }
 
-        public virtual ICollection<Inventory> Inventories { get; private set; }
-        public virtual ICollection<LineItem> LineItems { get; private set; }
-        public virtual ICollection<ProdCat> ProdCats { get; private set; }
+        public virtual ICollection<Inventory> Inventories { get; set; }
+        public virtual ICollection<LineItem> LineItems { get; set; }
+        public virtual ICollection<ProdCat> ProdCats { get; set; }
     }
 }

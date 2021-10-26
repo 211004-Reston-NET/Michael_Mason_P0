@@ -1,29 +1,28 @@
 using System;
 using System.Collections.Generic;
 using BL;
-using DL;
 using Models;
 
 namespace UI
 {
     public class CategoryList : IMenu
     {
-        public static string categoryID;
-        private CategoryBL _categoryBL;
-        public CategoryList(CategoryBL categoryBL)
+        public static int PKey;
+        private ICategoryBL _categoryBL;
+        public CategoryList(ICategoryBL catBL)
         {
-            _categoryBL = categoryBL;
+            _categoryBL = catBL;
         }
 
         public void Menu()
         {
-            IEnumerable<Category> categories = _categoryBL.GetAll();
+            IEnumerable<CategoryModel> categories = _categoryBL.GetAllModel();
 
             Console.WriteLine("Category Listing");
             Console.WriteLine("----------------");
-            foreach (Category category in categories)
+            foreach (CategoryModel category in categories)
             {
-                Console.WriteLine($"{category.CatNumber} | {category.CatName}");
+                Console.WriteLine($"{category.PKey} | {category.CatName}");
             }
             Console.WriteLine("----------------");
             Console.WriteLine("[0] Back to Categories Menu");
@@ -39,7 +38,8 @@ namespace UI
                     return MenuType.CategoryMenu;
                 case "1":
                     Console.WriteLine("Enter Category ID");
-                    categoryID = Console.ReadLine();
+                    string userInput = Console.ReadLine();
+                    PKey = int.Parse(userInput);
                     return MenuType.CategoryView;
                 default:
                     Console.WriteLine("INVALID SELECTION");

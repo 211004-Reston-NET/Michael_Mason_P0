@@ -12,14 +12,14 @@ namespace DL
             LineItems = new HashSet<LineItem>();
         }
 
-        public int Id { get; private set; }
-        public int StoreId { get; private set; }
-        public int CustId { get; private set; }
-        public int OrderNumber { get; private set; }
-        public decimal TotalPrice { get; private set; }
+        public int Id { get; set; }
+        public int StoreId { get; set; }
+        public int CustId { get; set; }
+        public int OrderNumber { get; set; }
+        public decimal TotalPrice { get; set; }
 
-        public virtual Customer Cust { get; private set; }
-        public virtual Storefront Store { get; private set; }
-        public virtual ICollection<LineItem> LineItems { get; private set; }
+        public virtual Customer Cust { get; set; }
+        public virtual Storefront Store { get; set; }
+        public virtual ICollection<LineItem> LineItems { get; set; }
     }
 }

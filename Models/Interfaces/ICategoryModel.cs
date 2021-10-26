@@ -4,7 +4,7 @@ namespace Models
 {
     public interface ICategoryModel : IModel<CategoryModel>
     {
-        int CatNumber { get; set; }
+        int PKey { get; set; }
         string CatName { get; set; }
     }
 }

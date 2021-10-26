@@ -13,12 +13,12 @@ namespace DL
             SOrders = new HashSet<SOrder>();
         }
 
-        public int Id { get; private set; }
-        public string StoreName { get; private set; }
-        public string StoreAddress { get; private set; }
-        public int StorePhone { get; private set; }
+        public int Id { get; set; }
+        public string StoreName { get; set; }
+        public string StoreAddress { get; set; }
+        public int StorePhone { get; set; }
 
-        public virtual ICollection<Inventory> Inventories { get; private set; }
-        public virtual ICollection<SOrder> SOrders { get; private set; }
+        public virtual ICollection<Inventory> Inventories { get; set; }
+        public virtual ICollection<SOrder> SOrders { get; set; }
     }
 }

@@ -35,11 +35,19 @@ namespace DL
         public void Create(TEntity entity)
         {
             _context.Set<TEntity>().Add(entity);
+            _context.SaveChanges();
         }
 
         public virtual void Delete(TEntity entity)
         {
             _context.Set<TEntity>().Remove(entity);
+            _context.SaveChanges();
+        }
+
+        public void Update(TEntity entity)
+        {
+            _context.Set<TEntity>().Update(entity);
+            _context.SaveChanges();
         }
     }
 }

@@ -1,6 +1,5 @@
 CREATE table category (
 	id int identity(1,1) primary key,
-	cat_number int not null,
 	cat_name varchar(50) not null
 	);
 	
@@ -57,11 +56,10 @@ create table inventory (
 )
 
 
-
-insert into category (cat_number, cat_name)
-	values (1, 'Toys');
-insert into category (cat_number, cat_name)
-	values (2, 'Gadgets');
+insert into category (cat_name)
+	values ('Toys');
+insert into category (cat_name)
+	values ('Gadgets');
 insert into product (prod_number, prod_name, prod_price, prod_description)
 	values (112342, 'Knick Knack', $9.99, 'A Knick Knack for Paddy Whacking.');
 insert into product (prod_number, prod_name, prod_price, prod_description)
@@ -91,3 +89,5 @@ insert into line_item (order_id, prod_id, quantity)
 	VALUES (1, 1, 1);
 insert into inventory (store_id, prod_id, quantity)
 	VALUES (1, 1, 10);
+
+--drop table inventory, line_item, s_order, storefront, customer, prod_cat, product, category;
