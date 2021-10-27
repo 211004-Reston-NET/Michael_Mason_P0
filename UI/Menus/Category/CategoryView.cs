@@ -27,7 +27,7 @@ namespace UI
             }
 
             Console.WriteLine("Category View");
-            Console.WriteLine($"Category: {catModel.PKey} | {catModel.CatName}");
+            Console.WriteLine($"Category: {catModel.Id} | {catModel.CatName}");
             Console.WriteLine("-------------");
             if (exceptionMessage != null)
             {

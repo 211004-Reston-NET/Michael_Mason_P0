@@ -15,7 +15,7 @@ namespace DL
         }
 
         public int Id { get; set; }
-        public int? ProdNumber { get; set; }
+        public int ProdNumber { get; set; }
         public string ProdName { get; set; }
         public decimal ProdPrice { get; set; }
         public string ProdDescription { get; set; }

@@ -18,7 +18,7 @@ namespace BL
 
         public CategoryModel MapEntityToModel(Category entity, CategoryModel model)
         {
-            model.PKey = entity.Id;
+            model.Id = entity.Id;
             model.CatName = entity.CatName;
             return model;
         }
@@ -39,9 +39,9 @@ namespace BL
 
         public List<CategoryModel> GetAllModel()
         {
-            IEnumerable<Category> cats = _context.GetAll();
+            IEnumerable<Category> items = _context.GetAll();
             List<CategoryModel> result = new List<CategoryModel>();
-            foreach (var item in cats)
+            foreach (var item in items)
             {
                 result.Add(GetModel(item.Id));
             }
@@ -54,11 +54,11 @@ namespace BL
             {
                 throw new NullReferenceException("You must enter a search term");
             }
-            IEnumerable<Category> cats = _context.Find(query);
+            IEnumerable<Category> items = _context.Find(query);
             List<CategoryModel> result = new List<CategoryModel>();
-            foreach (Category cat in cats)
+            foreach (Category item in items)
             {
-                result.Add(GetModel(cat.Id));
+                result.Add(GetModel(item.Id));
             }
             return result;
         }
@@ -79,7 +79,7 @@ namespace BL
             {
                 throw new NullReferenceException("You must enter a name");
             }
-            Category entity = CatRepo.Get(model.PKey);
+            Category entity = CatRepo.Get(model.Id);
             entity = MapModelToEntity(entity, model);
             CatRepo.Update(entity);
         }

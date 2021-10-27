@@ -24,7 +24,7 @@ namespace UI
             Console.WriteLine("----------------");
             foreach (CategoryModel category in categories)
             {
-                Console.WriteLine($"{category.PKey} | {category.CatName}");
+                Console.WriteLine($"{category.Id} | {category.CatName}");
             }
             Console.WriteLine("----------------");
             if (exceptionMessage != null)

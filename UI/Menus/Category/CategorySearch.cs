@@ -44,7 +44,7 @@ namespace UI
                 {
                     foreach (CategoryModel category in categories)
                     {
-                        Console.WriteLine($"{category.PKey} | {category.CatName}");
+                        Console.WriteLine($"{category.Id} | {category.CatName}");
                     }
                 }
             }
