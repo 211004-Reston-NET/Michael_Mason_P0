@@ -7,27 +7,27 @@ namespace UI
     public class CategoryView : IMenu
     {
         private static string exceptionMessage;
-        public static CategoryModel catModel;
+        public static CategoryModel model;
         private static ICategoryBL _catBL;
-        public CategoryView(ICategoryBL catBL)
+        public CategoryView(ICategoryBL bl)
         {
-            _catBL = catBL;
+            _catBL = bl;
         }
         public void Menu()
         {
             if (CategorySearch.PKey != 0)
             {
-                catModel = _catBL.GetModel(CategorySearch.PKey);
+                model = _catBL.GetModel(CategorySearch.PKey);
                 CategorySearch.PKey = 0;
             }
             if (CategoryList.PKey != 0)
             {
-                catModel = _catBL.GetModel(CategoryList.PKey);
+                model = _catBL.GetModel(CategoryList.PKey);
                 CategoryList.PKey = 0;
             }
 
             Console.WriteLine("Category View");
-            Console.WriteLine($"Category: {catModel.PKey} | {catModel.CatName}");
+            Console.WriteLine($"Category: {model.Id} | {model.CatName}");
             Console.WriteLine("-------------");
             if (exceptionMessage != null)
             {
@@ -50,11 +50,12 @@ namespace UI
                         try
                         {
                             Console.WriteLine("Enter new Name");
-                            catModel.CatName = Console.ReadLine();
+                            model.CatName = Console.ReadLine();
                         }
                         catch (Exception e)
                         {
                             exceptionMessage = e.Message;
+                            return MenuType.CategoryView;
                         }
                     return MenuType.CategoryUpdate;
                 default:

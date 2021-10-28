@@ -12,7 +12,7 @@ namespace BL
         void CreateModel(CategoryModel model);
         void UpdateModel(CategoryModel model);
         CategoryModel GetModel(int id);
-        List<CategoryModel> GetAllModel();
-        List<CategoryModel> FindModel(string query);
+        IList<CategoryModel> GetAllModel();
+        IList<CategoryModel> FindModel(string query);
     }
 }

@@ -7,9 +7,9 @@ namespace UI
     {
         private static string exceptionMessage;
         private ICategoryBL _catBL;
-        public CategoryUpdate(ICategoryBL catBL)
+        public CategoryUpdate(ICategoryBL bl)
         {
-            _catBL = catBL;
+            _catBL = bl;
         }
 
         public void Menu(){}
@@ -22,13 +22,13 @@ namespace UI
                 Console.WriteLine("----------------------");
                 exceptionMessage = null;
             }
-            Console.WriteLine($"Are you sure you want to update {CategoryView.catModel.CatName}?");
+            Console.WriteLine($"Are you sure you want to update {CategoryView.model.CatName}?");
             Console.WriteLine("[Y] or [N]");
             string userSelection = Console.ReadLine().ToLower();
             switch(userSelection)
             {
                 case "y":
-                    _catBL.UpdateModel(CategoryView.catModel);
+                    _catBL.UpdateModel(CategoryView.model);
                     return MenuType.CategoryList;
                 case "n":
                     return MenuType.MainMenu;

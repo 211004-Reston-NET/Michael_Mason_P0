@@ -9,9 +9,9 @@ namespace UI
         private static CategoryModel newModel = new CategoryModel();
         private static string exceptionMessage;
         private ICategoryBL _catBL;
-        public CategoryCreate(ICategoryBL catbl)
+        public CategoryCreate(ICategoryBL bl)
         {
-            _catBL = catbl;
+            _catBL = bl;
         }
 
         public void Menu()
@@ -29,7 +29,6 @@ namespace UI
             Console.WriteLine("[0] Go Back");
             Console.WriteLine("[1] Input Name");
             Console.WriteLine("[2] Save Category");
-            Console.WriteLine("-----------------");
         }
 
         public MenuType UserSelection()
@@ -44,17 +43,18 @@ namespace UI
                     {
                         Console.WriteLine("Enter the Category Name");
                         newModel.CatName = Console.ReadLine();
+                        return MenuType.CategoryCreate;
                     }
                     catch (Exception e)
                     {
                         exceptionMessage = e.Message;
+                        return MenuType.CategoryCreate;
                     }
-                    return MenuType.CategoryCreate;
                 case "2":
                     try
                     {
                         _catBL.CreateModel(newModel);
-                        newModel.CatName = Console.ReadLine();
+                        exceptionMessage = "Category saved";
                     }
                     catch (NullReferenceException e)
                     {

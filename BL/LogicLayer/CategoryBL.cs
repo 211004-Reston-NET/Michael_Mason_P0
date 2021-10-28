@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DL;
 using Models;
 
@@ -18,14 +19,13 @@ namespace BL
 
         public CategoryModel MapEntityToModel(Category entity, CategoryModel model)
         {
-            model.PKey = entity.Id;
+            model.Id = entity.Id;
             model.CatName = entity.CatName;
             return model;
         }
 
         public Category MapModelToEntity(Category entity, CategoryModel model)
         {
-
             entity.CatName = model.CatName;
             return entity;
         }
@@ -37,28 +37,28 @@ namespace BL
                 return model;
         }
 
-        public List<CategoryModel> GetAllModel()
+        public IList<CategoryModel> GetAllModel()
         {
-            IEnumerable<Category> cats = _context.GetAll();
-            List<CategoryModel> result = new List<CategoryModel>();
-            foreach (var item in cats)
+            IEnumerable<Category> items = _context.GetAll();
+            IList<CategoryModel> result = new List<CategoryModel>();
+            foreach (var item in items)
             {
                 result.Add(GetModel(item.Id));
             }
             return result;
         }
 
-        public List<CategoryModel> FindModel(string query)
+        public IList<CategoryModel> FindModel(string query)
         {
             if (query == null)
             {
                 throw new NullReferenceException("You must enter a search term");
             }
-            IEnumerable<Category> cats = _context.Find(query);
-            List<CategoryModel> result = new List<CategoryModel>();
-            foreach (Category cat in cats)
+            IQueryable<Category> items = _context.Find(query);
+            IList<CategoryModel> result = new List<CategoryModel>();
+            foreach (Category item in items)
             {
-                result.Add(GetModel(cat.Id));
+                result.Add(GetModel(item.Id));
             }
             return result;
         }
@@ -79,7 +79,7 @@ namespace BL
             {
                 throw new NullReferenceException("You must enter a name");
             }
-            Category entity = CatRepo.Get(model.PKey);
+            Category entity = CatRepo.Get(model.Id);
             entity = MapModelToEntity(entity, model);
             CatRepo.Update(entity);
         }

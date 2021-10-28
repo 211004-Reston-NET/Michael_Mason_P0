@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DL
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+    public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         public readonly DbContext _context;
 
@@ -20,17 +20,14 @@ namespace DL
             return _context.Set<TEntity>().Find(id);
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public virtual IEnumerable<TEntity> GetAll()
         {
-            return _context.Set<TEntity>().ToList();
+            return _context.Set<TEntity>();
         }
 
-        public virtual IEnumerable<TEntity> Find(string query)
-        {
-            // implementation should replace GetAll() with Linq Expression
-            IEnumerable<TEntity> dbQuery = GetAll();
-            return dbQuery;
-        }
+        public abstract IQueryable<TEntity> Find(string query);
+
+        public abstract IQueryable<TEntity> Find(int query);
         
         public void Create(TEntity entity)
         {
