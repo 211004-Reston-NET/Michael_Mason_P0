@@ -7,7 +7,7 @@ namespace UI
         private static string exceptionMessage;
         public void Menu()
         {
-            Console.WriteLine("Categories Menu");
+            Console.WriteLine("Orders Menu");
             Console.WriteLine("---------------");
             if (exceptionMessage != null)
             {
@@ -17,7 +17,7 @@ namespace UI
             }
             Console.WriteLine("[0] Back to Main Menu");
             Console.WriteLine("[1] Create an Order");
-            Console.WriteLine("[2] List all Categories");
+            Console.WriteLine("[2] List all Orders");
             Console.WriteLine("[3] Search for an Order");
         }
 

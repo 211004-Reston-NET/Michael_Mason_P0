@@ -17,7 +17,7 @@ namespace UI
             }
             Console.WriteLine("[0] Back to Main Menu");
             Console.WriteLine("[1] Create a Inventory");
-            Console.WriteLine("[2] List all Categories");
+            Console.WriteLine("[2] List all Inventory");
             Console.WriteLine("[3] Search for a Inventory");
         }
 

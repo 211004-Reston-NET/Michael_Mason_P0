@@ -14,5 +14,7 @@ namespace BL
         LineItemModel GetModel(int id);
         IEnumerable<LineItemModel> GetAllModel();
         IList<LineItemModel> FindModel(string query);
+
+        void DeleteModel(LineItemModel model);
     }
 }

@@ -98,5 +98,12 @@ namespace BL
             entity = MapModelToEntity(entity, model);
             InvRepo.Update(entity);
         }
+
+        public void DeleteModel(InventoryModel model)
+        {
+            Inventory entity = InvRepo.Get(model.Id);
+            entity = MapModelToEntity(entity, model);
+            InvRepo.Delete(entity);
+        }
     }
 }

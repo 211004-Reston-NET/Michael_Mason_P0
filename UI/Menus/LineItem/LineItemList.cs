@@ -33,9 +33,9 @@ namespace UI
                 Console.WriteLine("----------------");
                 exceptionMessage = null;
             }
-            Console.WriteLine("[0] Back to Categories Menu");
+            Console.WriteLine("[0] Back to Line Items Menu");
             Console.WriteLine("[1] Select LineItem");
-            Console.WriteLine("[2] Back to Product");
+            Console.WriteLine("[2] Back to ---");
         }
 
         public MenuType UserSelection()

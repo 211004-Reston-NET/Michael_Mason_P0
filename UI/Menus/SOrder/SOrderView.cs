@@ -26,8 +26,8 @@ namespace UI
                 SOrderList.PKey = 0;
             }
 
-            Console.WriteLine("SOrder View");
-            Console.WriteLine($"SOrder: {model.Id} | {model.OrderNumber}");
+            Console.WriteLine("Order View");
+            Console.WriteLine($"Order: {model.Id} | {model.OrderNumber}");
             Console.WriteLine("-------------");
             if (exceptionMessage != null)
             {

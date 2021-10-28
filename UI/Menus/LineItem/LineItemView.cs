@@ -26,7 +26,7 @@ namespace UI
                 LineItemList.PKey = 0;
             }
 
-            Console.WriteLine("LineItem View");
+            Console.WriteLine("Line Item View");
             Console.WriteLine($"LineItem: {model.Id} | {model.Id}");
             Console.WriteLine("-------------");
             if (exceptionMessage != null)
@@ -49,7 +49,7 @@ namespace UI
                 case "1":
                         try
                         {
-                            Console.WriteLine("Enter new Name");
+                            Console.WriteLine("Enter new ID");
                             model.Id = int.Parse(Console.ReadLine());
                         }
                         catch (Exception e)

@@ -14,5 +14,7 @@ namespace BL
         SOrderModel GetModel(int id);
         IEnumerable<SOrderModel> GetAllModel();
         IList<SOrderModel> FindModel(string query);
+
+        void DeleteModel(SOrderModel model);
     }
 }

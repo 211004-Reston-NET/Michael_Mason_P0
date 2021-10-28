@@ -96,5 +96,12 @@ namespace BL
             entity = MapModelToEntity(entity, model);
             StoreRepo.Update(entity);
         }
+
+        public void DeleteModel(StorefrontModel model)
+        {
+            Storefront entity = StoreRepo.Get(model.Id);
+            entity = MapModelToEntity(entity, model);
+            StoreRepo.Delete(entity);
+        }
     }
 }

@@ -33,7 +33,7 @@ namespace UI
                 Console.WriteLine("----------------");
                 exceptionMessage = null;
             }
-            Console.WriteLine("[0] Back to Categories Menu");
+            Console.WriteLine("[0] Back to Inventory Menu");
             Console.WriteLine("[1] Select Inventory");
             Console.WriteLine("[2] Back to Product");
         }

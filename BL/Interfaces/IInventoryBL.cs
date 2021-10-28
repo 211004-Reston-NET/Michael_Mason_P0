@@ -14,5 +14,6 @@ namespace BL
         InventoryModel GetModel(int id);
         IEnumerable<InventoryModel> GetAllModel();
         IList<InventoryModel> FindModel(string query);
+        void DeleteModel(InventoryModel model);
     }
 }

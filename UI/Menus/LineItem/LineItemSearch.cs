@@ -24,7 +24,7 @@ namespace UI
                 Console.WriteLine("-------------------");
                 exceptionMessage = null;
             }
-            Console.WriteLine("Enter LineItem Name");
+            Console.WriteLine("Enter Line Item Name");
             Console.WriteLine("-------------------");
 
             IEnumerable<LineItemModel> items;
@@ -58,7 +58,7 @@ namespace UI
             Console.WriteLine("-------------------");
             Console.WriteLine("[0] Go Back");
             Console.WriteLine("[1] Search Again");
-            Console.WriteLine("[2] View LineItem");
+            Console.WriteLine("[2] View Line Item");
         }
 
 
@@ -75,7 +75,7 @@ namespace UI
                 case "2":
                     try
                     {
-                        Console.WriteLine("Enter LineItem Number");
+                        Console.WriteLine("Enter Line Item Number");
                         string userInput = Console.ReadLine();
                         PKey = int.Parse(userInput);
                     }

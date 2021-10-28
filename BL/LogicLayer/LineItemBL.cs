@@ -98,5 +98,12 @@ namespace BL
             entity = MapModelToEntity(entity, model);
             LineItemRepo.Update(entity);
         }
+
+        public void DeleteModel(LineItemModel model)
+        {
+            LineItem entity = LineItemRepo.Get(model.Id);
+            entity = MapModelToEntity(entity, model);
+            LineItemRepo.Delete(entity);
+        }
     }
 }

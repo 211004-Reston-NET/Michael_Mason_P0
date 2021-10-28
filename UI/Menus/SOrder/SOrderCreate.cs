@@ -16,7 +16,7 @@ namespace UI
 
         public void Menu()
         {
-            Console.WriteLine("Create a SOrder");
+            Console.WriteLine("Create an Order");
             Console.WriteLine("-----------------");
             Console.WriteLine($"Name: {newModel.OrderNumber}");
             Console.WriteLine("-----------------");
@@ -41,7 +41,7 @@ namespace UI
                 case "1":
                     try
                     {
-                        Console.WriteLine("Enter the SOrder Name");
+                        Console.WriteLine("Enter the Order Number");
                         newModel.OrderNumber = int.Parse(Console.ReadLine());
                         return MenuType.SOrderCreate;
                     }
@@ -54,7 +54,7 @@ namespace UI
                     try
                     {
                         _orderBL.CreateModel(newModel);
-                        exceptionMessage = "SOrder saved";
+                        exceptionMessage = "Order saved";
                     }
                     catch (NullReferenceException e)
                     {

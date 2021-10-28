@@ -20,7 +20,7 @@ namespace UI
         {
             IEnumerable<SOrderModel> items = _orderBL.GetAllModel();
 
-            Console.WriteLine("SOrder Listing");
+            Console.WriteLine("Order Listing");
             Console.WriteLine("----------------");
             foreach (SOrderModel item in items)
             {
@@ -33,7 +33,7 @@ namespace UI
                 Console.WriteLine("----------------");
                 exceptionMessage = null;
             }
-            Console.WriteLine("[0] Back to Categories Menu");
+            Console.WriteLine("[0] Back to Orders Menu");
             Console.WriteLine("[1] Select SOrder");
             Console.WriteLine("[2] Back to Product");
         }
@@ -48,10 +48,10 @@ namespace UI
                 case "1":
                         try
                         {
-                            Console.WriteLine("Enter SOrder ID");
+                            Console.WriteLine("Enter Order ID");
                             string userInput = Console.ReadLine();
                             ProductCreate.catList.Add(int.Parse(userInput));
-                            exceptionMessage = "SOrder added.";
+                            exceptionMessage = "Order added.";
                         }
                         catch (FormatException)
                         {

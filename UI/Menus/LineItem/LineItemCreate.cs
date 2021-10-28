@@ -41,7 +41,7 @@ namespace UI
                 case "1":
                     try
                     {
-                        Console.WriteLine("Enter the LineItem Name");
+                        Console.WriteLine("Enter the LineItem ID");
                         newModel.Id = int.Parse(Console.ReadLine());
                         return MenuType.LineItemCreate;
                     }

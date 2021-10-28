@@ -101,5 +101,12 @@ namespace BL
             entity = MapModelToEntity(entity, model);
             CustRepo.Update(entity);
         }
+
+        public void DeleteModel(CustomerModel model)
+        {
+            Customer entity = CustRepo.Get(model.Id);
+            entity = MapModelToEntity(entity, model);
+            CustRepo.Delete(entity);
+        }
     }
 }

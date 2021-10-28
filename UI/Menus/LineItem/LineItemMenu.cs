@@ -7,7 +7,7 @@ namespace UI
         private static string exceptionMessage;
         public void Menu()
         {
-            Console.WriteLine("Categories Menu");
+            Console.WriteLine("Line Items Menu");
             Console.WriteLine("---------------");
             if (exceptionMessage != null)
             {
@@ -16,9 +16,9 @@ namespace UI
                 exceptionMessage = null;
             }
             Console.WriteLine("[0] Back to Main Menu");
-            Console.WriteLine("[1] Create a LineItem");
-            Console.WriteLine("[2] List all Categories");
-            Console.WriteLine("[3] Search for a LineItem");
+            Console.WriteLine("[1] Create a Line Item");
+            Console.WriteLine("[2] List all Line Items");
+            Console.WriteLine("[3] Search for a Line Item");
         }
 
         public MenuType UserSelection()

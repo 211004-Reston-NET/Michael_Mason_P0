@@ -14,5 +14,6 @@ namespace BL
         StorefrontModel GetModel(int id);
         IEnumerable<StorefrontModel> GetAllModel();
         IList<StorefrontModel> FindModel(string query);
+        void DeleteModel(StorefrontModel model);
     }
 }

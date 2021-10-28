@@ -24,7 +24,7 @@ namespace UI
                 Console.WriteLine("-------------------");
                 exceptionMessage = null;
             }
-            Console.WriteLine("Enter SOrder Name");
+            Console.WriteLine("Enter Order Number");
             Console.WriteLine("-------------------");
 
             IEnumerable<SOrderModel> items;
@@ -75,7 +75,7 @@ namespace UI
                 case "2":
                     try
                     {
-                        Console.WriteLine("Enter SOrder Number");
+                        Console.WriteLine("Enter Order Number");
                         string userInput = Console.ReadLine();
                         PKey = int.Parse(userInput);
                     }

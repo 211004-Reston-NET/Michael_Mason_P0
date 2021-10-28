@@ -14,5 +14,8 @@ namespace BL
         CustomerModel GetModel(int id);
         IEnumerable<CustomerModel> GetAllModel();
         IList<CustomerModel> FindModel(string query);
+
+        void DeleteModel(CustomerModel model);
+        
     }
 }

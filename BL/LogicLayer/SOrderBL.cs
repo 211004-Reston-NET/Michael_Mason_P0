@@ -102,5 +102,12 @@ namespace BL
             entity = MapModelToEntity(entity, model);
             SOrderRepo.Update(entity);
         }
+
+        public void DeleteModel(SOrderModel model)
+        {
+            SOrder entity = SOrderRepo.Get(model.Id);
+            entity = MapModelToEntity(entity, model);
+            SOrderRepo.Delete(entity);
+        }
     }
 }
