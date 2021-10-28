@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DL;
 using Models;
 
@@ -25,7 +26,6 @@ namespace BL
 
         public Category MapModelToEntity(Category entity, CategoryModel model)
         {
-
             entity.CatName = model.CatName;
             return entity;
         }
@@ -37,10 +37,10 @@ namespace BL
                 return model;
         }
 
-        public List<CategoryModel> GetAllModel()
+        public IList<CategoryModel> GetAllModel()
         {
             IEnumerable<Category> items = _context.GetAll();
-            List<CategoryModel> result = new List<CategoryModel>();
+            IList<CategoryModel> result = new List<CategoryModel>();
             foreach (var item in items)
             {
                 result.Add(GetModel(item.Id));
@@ -48,14 +48,14 @@ namespace BL
             return result;
         }
 
-        public List<CategoryModel> FindModel(string query)
+        public IList<CategoryModel> FindModel(string query)
         {
             if (query == null)
             {
                 throw new NullReferenceException("You must enter a search term");
             }
-            IEnumerable<Category> items = _context.Find(query);
-            List<CategoryModel> result = new List<CategoryModel>();
+            IQueryable<Category> items = _context.Find(query);
+            IList<CategoryModel> result = new List<CategoryModel>();
             foreach (Category item in items)
             {
                 result.Add(GetModel(item.Id));

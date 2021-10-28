@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DL;
 using Models;
 
@@ -18,21 +19,21 @@ namespace BL
 
         public ProdCatModel MapEntityToModel(ProdCat entity, ProdCatModel model)
         {
-            model.PKey = entity.Id;
+            model.Id = entity.Id;
             model.ProdId = entity.ProdId;
             model.CatId = entity.CatId;
-            //model.Prod = entity.Prod;
-            //model.Cat = entity.Cat;
+            model.Prod = entity.Prod;
+            model.Cat = entity.Cat;
             return model;
         }
 
         public ProdCat MapModelToEntity(ProdCat entity, ProdCatModel model)
         {
-            entity.Id = model.PKey;
+            entity.Id = model.Id;
             entity.ProdId = model.ProdId;
             entity.CatId = model.CatId;
-            //entity.Prod = model.Prod;
-            //entity.Cat = model.Cat;
+            entity.Prod = model.Prod;
+            entity.Cat = model.Cat;
             return entity;
         }
 
@@ -43,10 +44,10 @@ namespace BL
                 return model;
         }
 
-        public List<ProdCatModel> GetAllModel()
+        public IEnumerable<ProdCatModel> GetAllModel()
         {
             IEnumerable<ProdCat> items = _context.GetAll();
-            List<ProdCatModel> result = new List<ProdCatModel>();
+            IList<ProdCatModel> result = new List<ProdCatModel>();
             foreach (var item in items)
             {
                 result.Add(GetModel(item.Id));
@@ -54,7 +55,7 @@ namespace BL
             return result;
         }
 
-        public List<ProdCatModel> FindModel(string query)
+        public IList<ProdCatModel> FindModel(string query)
         {
             /*
             if (query == null)
@@ -62,8 +63,8 @@ namespace BL
                 throw new NullReferenceException("You must enter a search term");
             }
             */
-            IEnumerable<ProdCat> items = _context.Find(query);
-            List<ProdCatModel> result = new List<ProdCatModel>();
+            IQueryable<ProdCat> items = _context.Find(query);
+            IList<ProdCatModel> result = new List<ProdCatModel>();
             foreach (ProdCat item in items)
             {
                 result.Add(GetModel(item.Id));
@@ -87,9 +88,26 @@ namespace BL
             //{
             //    throw new NullReferenceException("You must enter a name");
             //}
-            ProdCat entity = ProdCatRepo.Get(model.PKey);
+            ProdCat entity = ProdCatRepo.Get(model.Id);
             entity = MapModelToEntity(entity, model);
             ProdCatRepo.Update(entity);
+        }
+
+        public void DeleteModel(ProdCatModel model)
+        {
+            ProdCat entity = ProdCatRepo.Get(model.Id);
+            entity = MapModelToEntity(entity, model);
+            ProdCatRepo.Delete(entity);
+        }
+
+        public IQueryable<string> FindAndJoinCategories(int id)
+        {
+            return ProdCatRepo.FindAndJoinCategories(id);
+        }
+
+        public string FindProductName(int id)
+        {
+            return ProdCatRepo.FindProductName(id);
         }
     }
 }

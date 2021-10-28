@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DL;
 using Models;
 
@@ -22,8 +23,8 @@ namespace BL
             model.StoreId = entity.StoreId;
             model.ProdId = entity.ProdId;
             model.Quantity = entity.Quantity;
-            //model.Prod = entity.Prod;
-            //model.Store = entity.Store;
+            model.Prod = entity.Prod;
+            model.Store = entity.Store;
             return model;
         }
 
@@ -34,8 +35,8 @@ namespace BL
             entity.StoreId = model.StoreId;
             entity.ProdId = model.ProdId;
             entity.Quantity = model.Quantity;
-            //entity.Prod = model.Prod;
-            //entity.Store = model.Store;
+            entity.Prod = model.Prod;
+            entity.Store = model.Store;
             return entity;
         }
 
@@ -46,10 +47,10 @@ namespace BL
                 return model;
         }
 
-        public List<InventoryModel> GetAllModel()
+        public IEnumerable<InventoryModel> GetAllModel()
         {
             IEnumerable<Inventory> items = _context.GetAll();
-            List<InventoryModel> result = new List<InventoryModel>();
+            IList<InventoryModel> result = new List<InventoryModel>();
             foreach (var item in items)
             {
                 result.Add(GetModel(item.Id));
@@ -57,15 +58,15 @@ namespace BL
             return result;
         }
 
-        public List<InventoryModel> FindModel(string query)
+        public IList<InventoryModel> FindModel(string query)
         {   /*
             if (query == null)
             {
                 throw new NullReferenceException("You must enter a search term");
             }
             */
-            IEnumerable<Inventory> items = _context.Find(query);
-            List<InventoryModel> result = new List<InventoryModel>();
+            IQueryable<Inventory> items = _context.Find(query);
+            IList<InventoryModel> result = new List<InventoryModel>();
             foreach (Inventory item in items)
             {
                 result.Add(GetModel(item.Id));

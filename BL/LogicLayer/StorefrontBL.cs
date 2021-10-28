@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DL;
 using Models;
 
@@ -21,8 +22,8 @@ namespace BL
             model.Id = entity.Id;
             model.StoreName = entity.StoreAddress;
             model.StorePhone = entity.StorePhone;
-            //model.Inventories = entity.Inventories;
-            //model.SOrders = entity.SOrders;
+            model.Inventories = entity.Inventories;
+            model.SOrders = entity.SOrders;
             return model;
         }
 
@@ -31,8 +32,8 @@ namespace BL
             entity.Id = model.Id;
             entity.StoreName = model.StoreAddress;
             entity.StorePhone = model.StorePhone;
-            //entity.Inventories = model.Inventories;
-            //entity.SOrders = model.SOrders;
+            entity.Inventories = model.Inventories;
+            entity.SOrders = model.SOrders;
             return entity;
         }
 
@@ -43,10 +44,10 @@ namespace BL
                 return model;
         }
 
-        public List<StorefrontModel> GetAllModel()
+        public IEnumerable<StorefrontModel> GetAllModel()
         {
             IEnumerable<Storefront> items = _context.GetAll();
-            List<StorefrontModel> result = new List<StorefrontModel>();
+            IList<StorefrontModel> result = new List<StorefrontModel>();
             foreach (var item in items)
             {
                 result.Add(GetModel(item.Id));
@@ -54,7 +55,7 @@ namespace BL
             return result;
         }
 
-        public List<StorefrontModel> FindModel(string query)
+        public IList<StorefrontModel> FindModel(string query)
         {
             /*
             if (query == null)
@@ -62,8 +63,8 @@ namespace BL
                 throw new NullReferenceException("You must enter a search term");
             }
             */
-            IEnumerable<Storefront> items = _context.Find(query);
-            List<StorefrontModel> result = new List<StorefrontModel>();
+            IQueryable<Storefront> items = _context.Find(query);
+            IList<StorefrontModel> result = new List<StorefrontModel>();
             foreach (Storefront item in items)
             {
                 result.Add(GetModel(item.Id));

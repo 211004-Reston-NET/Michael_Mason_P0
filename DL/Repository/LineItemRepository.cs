@@ -15,12 +15,14 @@ namespace DL
             get { return _context as StoreManagerContext; }
         }
 
-        //public override IEnumerable<LineItem> Find(string query)
-        //{
-        //    IEnumerable<LineItem> dbQuery = (from l in StoreManagerContext.LineItems
-        //                    where l.Order.Contains(query)
-        //                    select c);
-        //    return dbQuery;
-        //}
+        public override IQueryable<LineItem> Find(string query)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override IQueryable<LineItem> Find(int query)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DL;
 using Models;
 
@@ -12,7 +13,10 @@ namespace BL
         void CreateModel(ProdCatModel model);
         void UpdateModel(ProdCatModel model);
         ProdCatModel GetModel(int id);
-        List<ProdCatModel> GetAllModel();
-        List<ProdCatModel> FindModel(string query);
+        IEnumerable<ProdCatModel> GetAllModel();
+        IList<ProdCatModel> FindModel(string query);
+        void DeleteModel(ProdCatModel model);
+        IQueryable<string> FindAndJoinCategories(int id);
+        string FindProductName(int id);
     }
 }

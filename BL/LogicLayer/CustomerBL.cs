@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DL;
 using Models;
 
@@ -24,7 +25,7 @@ namespace BL
             model.CustAddress = entity.CustAddress;
             model.CustEmail = entity.CustEmail;
             model.CustPhone = entity.CustPhone;
-            //model.SOrders = entity.SOrders;
+            model.SOrders = entity.SOrders;
             return model;
         }
 
@@ -37,7 +38,7 @@ namespace BL
             entity.CustAddress = model.CustAddress;
             entity.CustEmail = model.CustEmail;
             entity.CustPhone = model.CustPhone;
-            //entity.SOrders = model.SOrders;
+            entity.SOrders = model.SOrders;
             return entity;
         }
 
@@ -48,10 +49,10 @@ namespace BL
                 return model;
         }
 
-        public List<CustomerModel> GetAllModel()
+        public IEnumerable<CustomerModel> GetAllModel()
         {
             IEnumerable<Customer> items = _context.GetAll();
-            List<CustomerModel> result = new List<CustomerModel>();
+            IList<CustomerModel> result = new List<CustomerModel>();
             foreach (var item in items)
             {
                 result.Add(GetModel(item.Id));
@@ -59,7 +60,7 @@ namespace BL
             return result;
         }
 
-        public List<CustomerModel> FindModel(string query)
+        public IList<CustomerModel> FindModel(string query)
         {
             /*
             if (query == null)
@@ -67,8 +68,8 @@ namespace BL
                 throw new NullReferenceException("You must enter a search term");
             }
             */
-            IEnumerable<Customer> items = _context.Find(query);
-            List<CustomerModel> result = new List<CustomerModel>();
+            IQueryable<Customer> items = _context.Find(query);
+            IList<CustomerModel> result = new List<CustomerModel>();
             foreach (Customer item in items)
             {
                 result.Add(GetModel(item.Id));

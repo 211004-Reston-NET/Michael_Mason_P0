@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DL;
 using Models;
 
@@ -23,9 +24,9 @@ namespace BL
             model.CustId = entity.CustId;
             model.OrderNumber = entity.OrderNumber;
             model.TotalPrice = entity.TotalPrice;
-            //model.Cust = entity.Cust;
-            //model.Store = entity.Store;
-            //model.LineItems = entity.LineItems;
+            model.Cust = entity.Cust;
+            model.Store = entity.Store;
+            model.LineItems = entity.LineItems;
             return model;
         }
 
@@ -36,9 +37,9 @@ namespace BL
             entity.CustId = model.CustId;
             entity.OrderNumber = model.OrderNumber;
             entity.TotalPrice = model.TotalPrice;
-            //entity.Cust = model.Cust;
-            //entity.Store = model.Store;
-            //entity.LineItems = model.LineItems;
+            entity.Cust = model.Cust;
+            entity.Store = model.Store;
+            entity.LineItems = model.LineItems;
             return entity;
         }
 
@@ -49,10 +50,10 @@ namespace BL
                 return model;
         }
 
-        public List<SOrderModel> GetAllModel()
+        public IEnumerable<SOrderModel> GetAllModel()
         {
             IEnumerable<SOrder> items = _context.GetAll();
-            List<SOrderModel> result = new List<SOrderModel>();
+            IList<SOrderModel> result = new List<SOrderModel>();
             foreach (var item in items)
             {
                 result.Add(GetModel(item.Id));
@@ -60,7 +61,7 @@ namespace BL
             return result;
         }
 
-        public List<SOrderModel> FindModel(string query)
+        public IList<SOrderModel> FindModel(string query)
         {
             /*
             if (query == null)
@@ -68,8 +69,8 @@ namespace BL
                 throw new NullReferenceException("You must enter a search term");
             }
             */
-            IEnumerable<SOrder> items = _context.Find(query);
-            List<SOrderModel> result = new List<SOrderModel>();
+            IQueryable<SOrder> items = _context.Find(query);
+            IList<SOrderModel> result = new List<SOrderModel>();
             foreach (SOrder item in items)
             {
                 result.Add(GetModel(item.Id));

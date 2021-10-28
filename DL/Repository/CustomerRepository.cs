@@ -15,6 +15,14 @@ namespace DL
             get { return _context as StoreManagerContext; }
         }
 
-        
+        public override IQueryable<Customer> Find(string query)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override IQueryable<Customer> Find(int query)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

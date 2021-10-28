@@ -12,7 +12,7 @@ namespace BL
         void CreateModel(LineItemModel model);
         void UpdateModel(LineItemModel model);
         LineItemModel GetModel(int id);
-        List<LineItemModel> GetAllModel();
-        List<LineItemModel> FindModel(string query);
+        IEnumerable<LineItemModel> GetAllModel();
+        IList<LineItemModel> FindModel(string query);
     }
 }

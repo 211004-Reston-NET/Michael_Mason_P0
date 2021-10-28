@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DL;
 using Models;
 
@@ -18,7 +19,7 @@ namespace BL
 
         public LineItemModel MapEntityToModel(LineItem entity, LineItemModel model)
         {
-            model.PKey = entity.Id;
+            model.Id = entity.Id;
             model.OrderId = entity.OrderId;
             model.ProdId = entity.ProdId;
             model.Quantity = entity.Quantity;
@@ -29,7 +30,7 @@ namespace BL
 
         public LineItem MapModelToEntity(LineItem entity, LineItemModel model)
         {
-            entity.Id = model.PKey;
+            entity.Id = model.Id;
             entity.OrderId = model.OrderId;
             entity.ProdId = model.ProdId;
             entity.Quantity = model.Quantity;
@@ -45,10 +46,10 @@ namespace BL
                 return model;
         }
 
-        public List<LineItemModel> GetAllModel()
+        public IEnumerable<LineItemModel> GetAllModel()
         {
             IEnumerable<LineItem> items = _context.GetAll();
-            List<LineItemModel> result = new List<LineItemModel>();
+            IList<LineItemModel> result = new List<LineItemModel>();
             foreach (var item in items)
             {
                 result.Add(GetModel(item.Id));
@@ -56,7 +57,7 @@ namespace BL
             return result;
         }
 
-        public List<LineItemModel> FindModel(string query)
+        public IList<LineItemModel> FindModel(string query)
         {
             /*
             if (query == null)
@@ -64,8 +65,8 @@ namespace BL
                 throw new NullReferenceException("You must enter a search term");
             }
             */
-            IEnumerable<LineItem> items = _context.Find(query);
-            List<LineItemModel> result = new List<LineItemModel>();
+            IQueryable<LineItem> items = _context.Find(query);
+            IList<LineItemModel> result = new List<LineItemModel>();
             foreach (LineItem item in items)
             {
                 result.Add(GetModel(item.Id));
@@ -93,7 +94,7 @@ namespace BL
                 throw new NullReferenceException("You must enter a name");
             }
             */
-            LineItem entity = LineItemRepo.Get(model.PKey);
+            LineItem entity = LineItemRepo.Get(model.Id);
             entity = MapModelToEntity(entity, model);
             LineItemRepo.Update(entity);
         }

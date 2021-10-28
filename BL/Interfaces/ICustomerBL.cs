@@ -12,7 +12,7 @@ namespace BL
         void CreateModel(CustomerModel model);
         void UpdateModel(CustomerModel model);
         CustomerModel GetModel(int id);
-        List<CustomerModel> GetAllModel();
-        List<CustomerModel> FindModel(string query);
+        IEnumerable<CustomerModel> GetAllModel();
+        IList<CustomerModel> FindModel(string query);
     }
 }

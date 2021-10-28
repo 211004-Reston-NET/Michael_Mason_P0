@@ -15,12 +15,17 @@ namespace DL
             get { return _context as StoreManagerContext; }
         }
 
-        public override IEnumerable<Category> Find(string query)
+        public override IQueryable<Category> Find(string query)
         {
-            IEnumerable<Category> dbQuery = (from c in StoreManagerContext.Categories
+            IQueryable<Category> dbQuery = (from c in StoreManagerContext.Categories
                             where c.CatName.Contains(query)
                             select c);
             return dbQuery;
+        }
+
+        public override IQueryable<Category> Find(int query)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -12,7 +12,7 @@ namespace BL
         void CreateModel(SOrderModel model);
         void UpdateModel(SOrderModel model);
         SOrderModel GetModel(int id);
-        List<SOrderModel> GetAllModel();
-        List<SOrderModel> FindModel(string query);
+        IEnumerable<SOrderModel> GetAllModel();
+        IList<SOrderModel> FindModel(string query);
     }
 }

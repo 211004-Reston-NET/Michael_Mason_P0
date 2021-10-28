@@ -10,21 +10,21 @@ namespace UI
         private static string exceptionMessage;
         public static int PKey;
 
-        private ICategoryBL _categoryBL;
-        public CategoryList(ICategoryBL catBL)
+        private ICategoryBL _catBL;
+        public CategoryList(ICategoryBL bl)
         {
-            _categoryBL = catBL;
+            _catBL = bl;
         }
 
         public void Menu()
         {
-            IEnumerable<CategoryModel> categories = _categoryBL.GetAllModel();
+            IEnumerable<CategoryModel> items = _catBL.GetAllModel();
 
             Console.WriteLine("Category Listing");
             Console.WriteLine("----------------");
-            foreach (CategoryModel category in categories)
+            foreach (CategoryModel item in items)
             {
-                Console.WriteLine($"{category.Id} | {category.CatName}");
+                Console.WriteLine($"{item.Id} | {item.CatName}");
             }
             Console.WriteLine("----------------");
             if (exceptionMessage != null)
@@ -35,6 +35,7 @@ namespace UI
             }
             Console.WriteLine("[0] Back to Categories Menu");
             Console.WriteLine("[1] Select Category");
+            Console.WriteLine("[2] Back to Product");
         }
 
         public MenuType UserSelection()
@@ -49,14 +50,17 @@ namespace UI
                         {
                             Console.WriteLine("Enter Category ID");
                             string userInput = Console.ReadLine();
-                            PKey = int.Parse(userInput);
+                            ProductCreate.catList.Add(int.Parse(userInput));
+                            exceptionMessage = "Category added.";
                         }
                         catch (FormatException)
                         {
                             exceptionMessage = "You must enter an ID";
                             return MenuType.CategoryList;
                         }
-                    return MenuType.CategoryView;
+                    return MenuType.CategoryList;
+                case "2":
+                    return MenuType.ProductCreate;
 
                 default:
                     exceptionMessage = "INVALID SELECTION";

@@ -11,9 +11,9 @@ namespace UI
         private static string exceptionMessage;
         public static int PKey;
         private ICategoryBL _catBL;
-        public CategorySearch(ICategoryBL catBL)
+        public CategorySearch(ICategoryBL bl)
         {
-            _catBL = catBL;
+            _catBL = bl;
         }
 
         public void Menu()
@@ -27,24 +27,24 @@ namespace UI
             Console.WriteLine("Enter Category Name");
             Console.WriteLine("-------------------");
 
-            IEnumerable<CategoryModel> categories;
+            IEnumerable<CategoryModel> items;
 
             string userInput = Console.ReadLine();
             if (userInput != "")
             {
-                categories = _catBL.FindModel(userInput);
+                items = _catBL.FindModel(userInput);
 
                 Console.WriteLine("-------------------");
 
-                if (categories.Count() == 0)
+                if (items.Count() == 0)
                 {
                     Console.WriteLine("Not found");
                 }
                 else
                 {
-                    foreach (CategoryModel category in categories)
+                    foreach (CategoryModel item in items)
                     {
-                        Console.WriteLine($"{category.Id} | {category.CatName}");
+                        Console.WriteLine($"{item.Id} | {item.CatName}");
                     }
                 }
             }
@@ -82,8 +82,9 @@ namespace UI
                     catch (FormatException e)
                     {
                         exceptionMessage = e.Message;
+                        return MenuType.CategorySearch;
                     }
-                    return MenuType.CategorySearch;
+                    return MenuType.CategoryView;
                 default:
                     exceptionMessage = "INVALID SELECTION";
                     return MenuType.CategorySearch;

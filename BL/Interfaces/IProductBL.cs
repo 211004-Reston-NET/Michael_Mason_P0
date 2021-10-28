@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DL;
 using Models;
 
@@ -9,10 +10,14 @@ namespace BL
     {
         ProductModel MapEntityToModel(Product entity, ProductModel model);
         Product MapModelToEntity(Product entity, ProductModel model);
-        void CreateModel(ProductModel model);
+        void CreateModel(ProductModel model, List<int> catList);
         void UpdateModel(ProductModel model);
         ProductModel GetModel(int id);
         List<ProductModel> GetAllModel();
-        List<ProductModel> FindModel(string query);
+        IList<ProductModel> FindModel(string query);
+        void DeleteModel(ProductModel model);
+        IQueryable<ProdCat> FindProdCatByProdId(int id);
+        ICollection<string> GetProdCatNames(List<int> idList);
+
     }
 }

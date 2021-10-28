@@ -1,13 +1,10 @@
 using System;
+using DL;
 
 namespace Models
 {
-    public class ProdCatModel : IProdCatModel
+    public class ProdCatModel : ProdCat
     {
-        public int PKey { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int ProdId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int CatId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public CategoryModel Cat { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public ProductModel Prod { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        new public int Id { get; set; }
     }
 }
