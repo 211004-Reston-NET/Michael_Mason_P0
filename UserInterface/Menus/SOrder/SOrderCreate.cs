@@ -37,7 +37,7 @@ namespace UserInterface
             sOrder.CustNumber = BL.GetCustomerByEmail(Console.ReadLine().ToLower()).CustNumber;
 
             Console.WriteLine("[0] Go Back");
-            Console.WriteLine("[2] Save Order");
+            Console.WriteLine("[2] Add line item");
         }
 
         public MenuType UserSelection()

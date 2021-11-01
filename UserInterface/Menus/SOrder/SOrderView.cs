@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Business;
 using Data;
 using Models;
@@ -16,28 +17,27 @@ namespace UserInterface
         }
         public void Menu()
         {
-            if (SOrderSearch.orderId != 0)
-            {
-                sOrder = BL.GetById(SOrderSearch.orderId);
-                SOrderSearch.orderId = 0;
-            }
-            if (SOrderList.orderId != 0)
-            {
-                sOrder = BL.GetById(SOrderList.orderId);
-                SOrderList.orderId = 0;
-            }
-
-            Console.WriteLine("Order View");
-            Console.WriteLine($"Order: {sOrder.OrderId} | {sOrder.TotalPrice}");
-            Console.WriteLine("-------------");
             if (exceptionMessage != null)
             {
                 Console.WriteLine(exceptionMessage);
                 Console.WriteLine("-------------");
                 exceptionMessage = null;
             }
-            Console.WriteLine("[0] Go Back");
-            Console.WriteLine("[1] Modify Name");
+            sOrder = BL.GetById(SOrderCreate.sOrder.OrderId);
+            sOrder.LineItems = BL.GetLineItemsByOrder(sOrder).ToList();
+            Console.WriteLine("Order View");
+            Console.WriteLine($"Order #{sOrder.OrderId} | Total: ${sOrder.TotalPrice}");
+            Console.WriteLine($"{BL.GetStorefrontById((int)sOrder.StoreNumber).StoreName}");
+            Console.WriteLine($"{BL.GetCustomerById((int)sOrder.CustNumber).CustName}");
+            foreach (var item in sOrder.LineItems)
+            {
+
+                Console.WriteLine($"product id: {BL.GetProductById((int)item.ProdId).ProdName} | price/unit: {BL.GetProductById((int)item.ProdId).ProdPrice} | quantity: {item.Quantity}");
+            }
+            Console.WriteLine("-------------");
+            
+            Console.WriteLine("[0] Process order");
+            Console.WriteLine("[1] Cancel order");
         }
 
         public MenuType UserSelection()
@@ -48,17 +48,9 @@ namespace UserInterface
                 case "0":
                     return MenuType.SOrderMenu;
                 case "1":
-                        try
-                        {
-                            Console.WriteLine("Enter new Name");
-                            sOrder.OrderId = int.Parse(Console.ReadLine());
-                        }
-                        catch (Exception e)
-                        {
-                            exceptionMessage = e.Message;
-                            return MenuType.SOrderView;
-                        }
-                    return MenuType.SOrderUpdate;
+                        BL.Delete(sOrder);
+                        BL.UpdateInventoryOnCancel(sOrder.OrderId);
+                        return MenuType.MainMenu;
                 default:
                     exceptionMessage = ".....INVALID SELECTION...";
                     return MenuType.SOrderMenu;

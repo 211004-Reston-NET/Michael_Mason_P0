@@ -25,7 +25,9 @@ namespace UserInterface
             Console.WriteLine("----------------");
             foreach (var item in items)
             {
-                Console.WriteLine($"{item.OrderId} | {item.StoreNumber} | {item.TotalPrice}");
+                var cust = BL.GetCustomerById((int)item.CustNumber);
+                var store = BL.GetStorefrontById((int)item.StoreNumber);
+                Console.WriteLine($"{item.OrderId} | {store.StoreName} | {cust.CustName} | {item.TotalPrice}");
             }
             Console.WriteLine("----------------");
             if (exceptionMessage != null)

@@ -51,7 +51,6 @@ namespace UserInterface
             Console.WriteLine("-----");
             Console.WriteLine("[0] Back");
             Console.WriteLine("[1] Save line item");
-            Console.WriteLine("[2] Process order");
         }
 
         public MenuType UserSelection()
@@ -76,7 +75,7 @@ namespace UserInterface
                         {
                             BL.UpdateInventory(SOrderCreate.sOrder.OrderId);
                             BL.UpdateTotalPrice(SOrderCreate.sOrder.OrderId);
-                            return MenuType.LineItemList;
+                            return MenuType.SOrderView;
                         }
                     }
                     catch (Exception e)
