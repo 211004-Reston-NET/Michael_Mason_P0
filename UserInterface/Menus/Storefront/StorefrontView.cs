@@ -57,6 +57,7 @@ namespace UserInterface
 
             Console.WriteLine("[0] Go Back");
             Console.WriteLine("[1] Update inventory");
+            Console.WriteLine("[2] Begin order");
         }
 
         public MenuType UserSelection()
@@ -72,6 +73,8 @@ namespace UserInterface
                     Console.WriteLine("Enter new quantity");
                     Console.WriteLine(BL.UpdateInventory(invId, int.Parse(Console.ReadLine())));
                     return MenuType.StorefrontView;
+                case "2":
+                    return MenuType.SOrderCreate;
                 default:
                     exceptionMessage = ".....INVALID SELECTION...";
                     return MenuType.StorefrontMenu;

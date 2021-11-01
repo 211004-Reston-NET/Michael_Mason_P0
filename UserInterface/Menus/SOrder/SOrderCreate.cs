@@ -37,7 +37,7 @@ namespace UserInterface
             sOrder.CustNumber = BL.GetCustomerByEmail(Console.ReadLine().ToLower()).CustNumber;
 
             Console.WriteLine("[0] Go Back");
-            Console.WriteLine("[2] Add line item");
+            Console.WriteLine("[1] Add line item");
         }
 
         public MenuType UserSelection()
@@ -48,7 +48,7 @@ namespace UserInterface
                 case "0":
                     return MenuType.SOrderMenu;
                 
-                case "2":
+                case "1":
                     try
                     {
                         BL.Create(sOrder);
