@@ -18,14 +18,13 @@ namespace UserInterface
 
         public void Menu()
         {
-            lineItem = new LineItem();
             if (exceptionMessage != null)
             {
                 Console.WriteLine(exceptionMessage);
                 Console.WriteLine("-----------------");
                 exceptionMessage = null;
             }
-
+            lineItem = new LineItem();
             lineItem.OrderId = SOrderCreate.sOrder.OrderId;
 
             var items = BL.ListAllProducts((int)SOrderCreate.sOrder.StoreNumber);
@@ -97,29 +96,32 @@ namespace UserInterface
                     BL.Save();
                     return MenuType.LineItemMenu;
                 case "1":
-                    try
+                    BL.Create(lineItem);
+                    BL.Save();
+                    exceptionMessage = "Line item created";
+                    Console.WriteLine("Enter another item? [y]/[n]");
+                    string confirm = "";
+                    while (confirm != "y" || confirm != "n")
                     {
-                        BL.Create(lineItem);
-                        BL.Save();
-                        exceptionMessage = "Line item created";
-                        Console.WriteLine("Enter another item? [y]/[n]");
-                        if (Console.ReadLine().ToLower() == "y")
+                        confirm = Console.ReadLine();
+                        if (confirm == "y")
                         {
                             return MenuType.LineItemCreate;
                         }
-                        else
+                        else if (confirm == "n")
                         {
                             BL.UpdateInventory(SOrderCreate.sOrder);
                             BL.UpdateTotalPrice(SOrderCreate.sOrder);
                             BL.Save();
                             return MenuType.SOrderView;
                         }
+                        else
+                        {
+                            Console.WriteLine("Invalid selection");
+                            Console.WriteLine("Enter another item? [y]/[n]");
+                        }
                     }
-                    catch (Exception e)
-                    {
-                        exceptionMessage = e.Message;
-                        return MenuType.LineItemCreate;
-                    }
+                    return MenuType.MainMenu;
                 case "2":
                     try
                     {
@@ -132,7 +134,7 @@ namespace UserInterface
                     SOrderCreate.sOrder = null;
                     return MenuType.LineItemMenu;
                 default:
-                    exceptionMessage = ".....INVALID SELECTION...";
+                    exceptionMessage = "Invalid selection";
                     return MenuType.LineItemCreate;
             }
         }

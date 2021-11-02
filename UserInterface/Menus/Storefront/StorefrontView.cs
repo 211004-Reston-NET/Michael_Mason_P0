@@ -43,7 +43,6 @@ namespace UserInterface
             Console.WriteLine("[0] Back");
             Console.WriteLine("[1] View Inventory");
             Console.WriteLine("[2] View Orders");
-            Console.WriteLine("[3] Begin order");
         }
 
 
@@ -58,10 +57,8 @@ namespace UserInterface
                     return MenuType.StorefrontInventoryList;
                 case "2":
                     return MenuType.StorefrontOrderList;
-                case "3":
-                    return MenuType.SOrderCreate;
                 default:
-                    exceptionMessage = ".....INVALID SELECTION...";
+                    exceptionMessage = "Invalid selection";
                     return MenuType.StorefrontMenu;
             }
         }

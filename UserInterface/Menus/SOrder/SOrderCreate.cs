@@ -26,15 +26,14 @@ namespace UserInterface
             Console.WriteLine("Create an Order");
             Console.WriteLine("-----");
             sOrder = new SOrder();
+            sOrder.CustNumber = CustomerView.customer.CustNumber;
 
-            if (StorefrontView.storefront.StoreNumber == 0)
-            {
-                foreach (var item in BL.ListAllStores())
+            foreach (var item in BL.ListAllStores())
                 {
                     Console.WriteLine($"[{item.StoreNumber}] | {item.StoreName}");
                 }
                 Console.WriteLine("-----");
-                while (sOrder.StoreNumber <= 0)
+                while (!sOrder.StoreNumber.HasValue)
                 {
                     try
                     {
@@ -46,33 +45,6 @@ namespace UserInterface
                         Console.WriteLine(e.Message);
                     }
                 }
-            }
-            else
-            {
-
-                sOrder.StoreNumber = StorefrontView.storefront.StoreNumber;
-            }
-
-            if (CustomerView.customer.CustNumber == 0)
-            {
-                while (!sOrder.CustNumber.HasValue)
-                {
-                    try
-                    {
-                        Console.WriteLine("Enter customer email");
-                        var userInput = Console.ReadLine();
-                        sOrder.CustNumber = BL.GetCustomerByEmail(userInput.ToLower()).CustNumber;
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                    }
-                }
-            }
-            else
-            {
-                sOrder.CustNumber = CustomerView.customer.CustNumber;
-            }
 
 
             Console.WriteLine("[0] Go Back");
@@ -85,7 +57,7 @@ namespace UserInterface
             switch (userSelection)
             {
                 case "0":
-                    return MenuType.SOrderMenu;
+                    return MenuType.CustomerView;
 
                 case "1":
                     try
@@ -100,7 +72,7 @@ namespace UserInterface
                     }
                     return MenuType.LineItemCreate;
                 default:
-                    exceptionMessage = ".....INVALID SELECTION...";
+                    exceptionMessage = "Invalid selection";
                     return MenuType.SOrderCreate;
             }
         }

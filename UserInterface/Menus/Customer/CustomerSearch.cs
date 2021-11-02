@@ -20,6 +20,13 @@ namespace UserInterface
 
         public void Menu()
         {
+            if (exceptionMessage != null)
+            {
+                Console.WriteLine(exceptionMessage);
+                Console.WriteLine("-----");
+                exceptionMessage = null;
+            }
+            
             var searchPrompt = $@"Customer search
 [e] By email
 [n] By name
@@ -142,7 +149,7 @@ namespace UserInterface
                     }
                     return MenuType.CustomerView;
                 default:
-                    exceptionMessage = "INVALID SELECTION";
+                    exceptionMessage = "Invalid selection";
                     return MenuType.CustomerSearch;
             }
         }

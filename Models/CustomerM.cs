@@ -44,7 +44,7 @@ Phone: {this.CustPhone}
             {
                 foreach (var item in SOrders)
                 {
-                    output += $"order #{item.OrderId} . store id: {item.StoreNumber} . {item.TotalPrice}\n";
+                    output += $"order #{item.OrderId} | {item.TotalPrice}\n";
                 }
             }
             return output;

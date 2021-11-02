@@ -7,14 +7,14 @@ namespace UserInterface
         private static string exceptionMessage;
         public void Menu()
         {
-            Console.WriteLine("Customer Menu");
-            Console.WriteLine("---------------");
             if (exceptionMessage != null)
             {
                 Console.WriteLine(exceptionMessage);
                 Console.WriteLine("---------------");
                 exceptionMessage = null;
             }
+            Console.WriteLine("Customer Menu");
+            Console.WriteLine("---------------");
             Console.WriteLine("[0] Back to Main Menu");
             Console.WriteLine("[1] Create a Customer");
             Console.WriteLine("[2] List all Customers");
@@ -35,7 +35,7 @@ namespace UserInterface
                 case "3":
                     return MenuType.CustomerSearch;
                 default:
-                    exceptionMessage = "INVALID SELECTION";
+                    exceptionMessage = "Invalid selection";
                     return MenuType.CustomerMenu;
             }
         }

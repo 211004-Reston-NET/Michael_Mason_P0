@@ -4,8 +4,15 @@ namespace UserInterface
 {
     public class MainMenu : IMenu
     {
+        public static string exceptionMessage;
         public void Menu()
         {
+            if (exceptionMessage != null)
+            {
+                Console.WriteLine(exceptionMessage);
+                Console.WriteLine("-----");
+                exceptionMessage = null;
+            }
             Console.WriteLine("Main Menu");
             Console.WriteLine("---------");
             Console.WriteLine("[0] Exit");
@@ -25,9 +32,7 @@ namespace UserInterface
                 case "2":
                     return MenuType.StorefrontMenu;
                 default:
-                    Console.WriteLine("INVALID SELECTION");
-                    Console.WriteLine("Press [enter] to continue");
-                    Console.ReadLine();
+                    exceptionMessage = "Invalid selection";
                     return MenuType.MainMenu;
             }
         }

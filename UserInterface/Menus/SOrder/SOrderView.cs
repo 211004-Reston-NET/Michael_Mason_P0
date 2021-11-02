@@ -23,6 +23,7 @@ namespace UserInterface
                 Console.WriteLine("-------------");
                 exceptionMessage = null;
             }
+           
             sOrder = BL.GetById(SOrderCreate.sOrder.OrderId);
             sOrder.LineItems = BL.GetLineItemsByOrder(sOrder).ToList();
             Console.WriteLine("Order View");
