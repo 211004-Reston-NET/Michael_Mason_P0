@@ -16,18 +16,18 @@ namespace UserInterface
         }
         public void Menu()
         {
+            if (exceptionMessage != null)
+            {
+                Console.WriteLine(exceptionMessage);
+                Console.WriteLine("-----");
+                exceptionMessage = null;
+            }
             
             CustomerM customerM = new CustomerM(CustomerList.customer);
             customerM.SOrders = BL.GetOrders(CustomerList.customer);
             Console.WriteLine("Customer View");
             Console.WriteLine(customerM);
-            Console.WriteLine("-------------");
-            if (exceptionMessage != null)
-            {
-                Console.WriteLine(exceptionMessage);
-                Console.WriteLine("-------------");
-                exceptionMessage = null;
-            }
+            Console.WriteLine("-----");
             Console.WriteLine("[0] Go Back");
         }
 

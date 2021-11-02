@@ -34,13 +34,12 @@ Name: {this.CustName}
 Address: {this.CustAddress}
 Email: {this.CustEmail}
 Phone: {this.CustPhone}
------";
+-----
+";
         foreach (var item in SOrders)
         {
             output += $"order #{item.OrderId} . store id: {item.StoreNumber} . {item.TotalPrice}\n";
         }
-
-        output += "-----";
         return output;
 
         }

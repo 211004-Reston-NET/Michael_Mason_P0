@@ -15,6 +15,7 @@ namespace Business
         Product GetProductByProdId(int prodId);
         string UpdateInventory(int invId, int quantity);
         IEnumerable<SOrder> GetOrdersByStore(Storefront entity);
+        Customer GetCustomerByOrder(SOrder entity);
     }
 
     public class StorefrontBL : BaseBL<Storefront>, IStorefrontBL
@@ -90,6 +91,19 @@ namespace Business
                     
             StoreManagerContext storeBL = new StoreManagerContext(options);
             return storeBL.SOrders.Where(o => o.StoreNumber.Equals(entity.StoreNumber));
+        }
+        public Customer GetCustomerByOrder(SOrder entity)
+        {
+            var configuration = new ConfigurationBuilder() //Configurationbuilder is the class that came from the Microsoft.extensions.configuration package
+                   .SetBasePath(Directory.GetCurrentDirectory()) //Gets the current directory of the RRUI file path
+                   .AddJsonFile("appsetting.json") //Adds the appsetting.json file in our RRUI
+                   .Build(); //Builds our configuration
+            DbContextOptions<StoreManagerContext> options = new DbContextOptionsBuilder<StoreManagerContext>()
+                    .UseSqlServer(configuration.GetConnectionString("StoreManager"))
+                    .Options;
+                    
+            StoreManagerContext custBL = new StoreManagerContext(options);
+            return custBL.Customers.Single(o => o.CustNumber.Equals(entity.CustNumber));
         }
     }
 }

@@ -22,7 +22,7 @@ namespace UserInterface
             if (exceptionMessage != null)
             {
                 Console.WriteLine(exceptionMessage);
-                Console.WriteLine("-------------");
+                Console.WriteLine("-----");
                 exceptionMessage = null;
             }
 
@@ -52,13 +52,15 @@ namespace UserInterface
             var orders = BL.GetOrdersByStore(storefront);
             foreach (var item in orders)
             {
-                Console.WriteLine($"order #{item.OrderId} | customer id: {item.CustNumber} | total price: {item.TotalPrice}");
+                var cust = BL.GetCustomerByOrder(item);
+                Console.WriteLine($"order #{item.OrderId} | customer id: {cust.CustName} | {cust.CustEmail} | total price: {item.TotalPrice}");
             }
-
+            Console.WriteLine("-----");
             Console.WriteLine("[0] Go Back");
             Console.WriteLine("[1] Update inventory");
             Console.WriteLine("[2] Begin order");
         }
+
 
         public MenuType UserSelection()
         {
