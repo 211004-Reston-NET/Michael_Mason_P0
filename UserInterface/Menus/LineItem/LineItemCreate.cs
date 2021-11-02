@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Business;
 using Data;
 using Models;
@@ -24,33 +25,66 @@ namespace UserInterface
                 Console.WriteLine("-----------------");
                 exceptionMessage = null;
             }
-            
-            lineItem.OrderId = SOrderCreate.sOrder.OrderId;
-            Console.WriteLine("Enter product id");
-            foreach (var item in BL.ListAllProducts((int)SOrderCreate.sOrder.StoreNumber))
-            {
-                Console.WriteLine($"[{item.ProdId}] | {item.ProdName} | {item.ProdPrice}");
-            }
-            Console.WriteLine("-----");
-            Console.WriteLine("Enter product id");
 
-            lineItem.ProdId = int.Parse(Console.ReadLine());
-            Console.WriteLine("Enter quantity");
-            var quantity = int.Parse(Console.ReadLine());
-            var check = BL.CheckInventory((int)SOrderCreate.sOrder.StoreNumber, (int)lineItem.ProdId, lineItem.Quantity);
-            // while loop?
-            if (quantity < check)
+            lineItem.OrderId = SOrderCreate.sOrder.OrderId;
+
+            var items = BL.ListAllProducts((int)SOrderCreate.sOrder.StoreNumber);
+            if (items.Count() == 0)
             {
-                lineItem.Quantity = quantity;
+                Console.WriteLine("This store has no items for sale");
+                Console.WriteLine("[0] Back");
             }
             else
             {
-                Console.WriteLine("Not enough stock");
+                foreach (var item in items)
+                {
+                    Console.WriteLine($"[{item.ProdId}] | {item.ProdName} | {item.ProdPrice}");
+                }
+                Console.WriteLine("-----");
+
+                while (!lineItem.ProdId.HasValue)
+                {
+                    try
+                    {
+                        Console.WriteLine("Enter product id");
+                        lineItem.ProdId = int.Parse(Console.ReadLine());
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }
+
+                while (lineItem.Quantity <= 0)
+                {
+                    try
+                    {
+                        Console.WriteLine("Enter quantity");
+                        var quantity = int.Parse(Console.ReadLine());
+                        var check = BL.CheckInventory((int)SOrderCreate.sOrder.StoreNumber, (int)lineItem.ProdId, lineItem.Quantity);
+                        // while loop?
+                        if (quantity < check)
+                        {
+                            lineItem.Quantity = quantity;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Not enough stock");
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }
+
+
+
+                Console.WriteLine("-----");
+                Console.WriteLine("[0] Back");
+                Console.WriteLine("[1] Save line item");
             }
 
-            Console.WriteLine("-----");
-            Console.WriteLine("[0] Back");
-            Console.WriteLine("[1] Save line item");
         }
 
         public MenuType UserSelection()
@@ -59,6 +93,8 @@ namespace UserInterface
             switch (userSelection)
             {
                 case "0":
+                    BL.DeleteOrder(SOrderCreate.sOrder);
+                    BL.Save();
                     return MenuType.LineItemMenu;
                 case "1":
                     try
@@ -73,8 +109,9 @@ namespace UserInterface
                         }
                         else
                         {
-                            BL.UpdateInventory(SOrderCreate.sOrder.OrderId);
-                            BL.UpdateTotalPrice(SOrderCreate.sOrder.OrderId);
+                            BL.UpdateInventory(SOrderCreate.sOrder);
+                            BL.UpdateTotalPrice(SOrderCreate.sOrder);
+                            BL.Save();
                             return MenuType.SOrderView;
                         }
                     }

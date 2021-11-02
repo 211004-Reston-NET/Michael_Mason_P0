@@ -24,13 +24,13 @@ namespace UserInterface
         public void Menu()
         {
             var custs = BL.GetAll();
-            foreach(var item in custs)
+            foreach (var item in custs)
             {
                 customerM = new CustomerM(item);
                 Console.WriteLine(customerM.ToList());
             }
             Console.WriteLine("-----");
-            
+
             Console.WriteLine("[0] Back to Customers Menu");
             Console.WriteLine("[1] Select customer");
         }
@@ -43,11 +43,21 @@ namespace UserInterface
                 case "0":
                     return MenuType.CustomerMenu;
                 case "1":
-                    Console.WriteLine("Enter customer id");
-                    customer = BL.GetById(int.Parse(Console.ReadLine()));
+                    while (customer == null)
+                    {
+                        try
+                        {
+                            Console.WriteLine("Enter customer id");
+                            customer = BL.GetById(int.Parse(Console.ReadLine()));
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
+                    }
                     return MenuType.CustomerView;
                 default:
-                    exceptionMessage = "INVALID SELECTION";
+                    exceptionMessage = "Invalid selection";
                     return MenuType.CustomerList;
             }
         }

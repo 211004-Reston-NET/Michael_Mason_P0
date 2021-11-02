@@ -24,18 +24,61 @@ namespace UserInterface
                 Console.WriteLine("-----------------");
                 exceptionMessage = null;
             }
+
             customer = new Customer();
             Console.WriteLine("Create a Customer");
-            Console.WriteLine("-----------------");
-            Console.WriteLine("Enter a name");
-            customer.CustName = Console.ReadLine();
-            Console.WriteLine("Enter address");
-            customer.CustAddress = Console.ReadLine();
-            Console.WriteLine("Enter Email");
-            customer.CustEmail = Console.ReadLine();
-            Console.WriteLine("Enter Phone");
-            customer.CustPhone = int.Parse(Console.ReadLine());
-            Console.WriteLine("-----------------");
+            Console.WriteLine("-----");
+            while (customer.CustName == null)
+            {
+                try
+                {
+                    Console.WriteLine("Enter a name");
+                    customer.CustName = Console.ReadLine();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            while (customer.CustAddress == null)
+            {
+                try
+                {
+                    Console.WriteLine("Enter address");
+                    customer.CustAddress = Console.ReadLine();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+
+            while (customer.CustEmail == null)
+            {
+                try
+                {
+                    Console.WriteLine("Enter Email");
+                    customer.CustEmail = Console.ReadLine();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+
+            while (customer.CustPhone == 0)
+            {
+                try
+                {
+                    Console.WriteLine("Enter Phone");
+                    customer.CustPhone = int.Parse(Console.ReadLine());
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            Console.WriteLine("-----");
 
             Console.WriteLine("[0] Go Back");
             Console.WriteLine("[1] Save Customer");
@@ -53,7 +96,7 @@ namespace UserInterface
                     BL.Save();
                     return MenuType.CustomerList;
                 default:
-                    exceptionMessage = ".....INVALID SELECTION...";
+                    exceptionMessage = "Invalid selection";
                     return MenuType.CustomerCreate;
             }
         }

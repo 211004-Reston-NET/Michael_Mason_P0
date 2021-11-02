@@ -27,22 +27,22 @@ create table storefront (
 
 create table s_order (
 	order_id int identity(1,1) primary key,
-	store_number int FOREIGN KEY references storefront (store_number),
-	cust_number int FOREIGN KEY REFERENCES customer (cust_number), 
+	store_number int FOREIGN KEY references storefront (store_number) on delete cascade,
+	cust_number int FOREIGN KEY REFERENCES customer (cust_number) on delete cascade, 
 	total_price money not null
 )
 
 create table line_item (
 	line_id int IDENTITY PRIMARY KEY,
-	order_id int FOREIGN KEY REFERENCES s_order (order_id),
-	prod_id int FOREIGN KEY REFERENCES product (prod_id),
+	order_id int FOREIGN KEY REFERENCES s_order (order_id) on delete cascade,
+	prod_id int FOREIGN KEY REFERENCES product (prod_id) on delete cascade,
 	quantity int not null
 )
 
 create table inventory (
 	inv_id int IDENTITY(1,1) PRIMARY KEY,
-	store_number int FOREIGN KEY REFERENCES storefront (store_number),
-	prod_id int FOREIGN KEY REFERENCES product (prod_id),
+	store_number int FOREIGN KEY REFERENCES storefront (store_number) on delete cascade,
+	prod_id int FOREIGN KEY REFERENCES product (prod_id) on delete cascade,
 	quantity int not null
 )
 

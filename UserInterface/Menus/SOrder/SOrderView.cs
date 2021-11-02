@@ -34,7 +34,7 @@ namespace UserInterface
 
                 Console.WriteLine($"product id: {BL.GetProductById((int)item.ProdId).ProdName} | price/unit: {BL.GetProductById((int)item.ProdId).ProdPrice} | quantity: {item.Quantity}");
             }
-            Console.WriteLine("-------------");
+            Console.WriteLine("-----");
             
             Console.WriteLine("[0] Process order");
             Console.WriteLine("[1] Cancel order");
@@ -46,13 +46,14 @@ namespace UserInterface
             switch (userSelection)
             {
                 case "0":
-                    return MenuType.SOrderMenu;
+                    return MenuType.MainMenu;
                 case "1":
                         BL.Delete(sOrder);
                         BL.UpdateInventoryOnCancel(sOrder.OrderId);
+                        BL.Save();
                         return MenuType.MainMenu;
                 default:
-                    exceptionMessage = ".....INVALID SELECTION...";
+                    exceptionMessage = "Invalid selection";
                     return MenuType.SOrderMenu;
             }
         }

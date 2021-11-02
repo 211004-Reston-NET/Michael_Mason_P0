@@ -8,7 +8,7 @@ namespace UserInterface
     public class CustomerView : IMenu
     {
         private static string exceptionMessage;
-        public Customer customer;
+        public static Customer customer = new Customer();
         private static ICustomerBL BL;
         public CustomerView(ICustomerBL bl)
         {
@@ -22,9 +22,18 @@ namespace UserInterface
                 Console.WriteLine("-----");
                 exceptionMessage = null;
             }
-            
-            CustomerM customerM = new CustomerM(CustomerList.customer);
-            customerM.SOrders = BL.GetOrders(CustomerList.customer);
+            if (CustomerList.customer != null)
+            {
+                customer = CustomerList.customer;
+                CustomerList.customer = null;
+            }
+            if (CustomerSearch.customer != null)
+            {
+                customer = CustomerSearch.customer;
+                CustomerSearch.customer = null;
+            }
+            CustomerM customerM = new CustomerM(customer);
+            customerM.SOrders = BL.GetOrders(customer);
             Console.WriteLine("Customer View");
             Console.WriteLine(customerM);
             Console.WriteLine("-----");
@@ -37,6 +46,7 @@ namespace UserInterface
             switch (userSelection)
             {
                 case "0":
+                    customer = null;
                     return MenuType.CustomerMenu;
                 default:
                     exceptionMessage = ".....INVALID SELECTION...";

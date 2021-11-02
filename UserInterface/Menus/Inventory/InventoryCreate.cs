@@ -17,32 +17,73 @@ namespace UserInterface
 
         public void Menu()
         {
-            inventory = new Inventory();
-            inventory.Prod = new Product();
-            Console.WriteLine("Add a Product");
-            Console.WriteLine("-----");
-            Console.WriteLine("Product name");
-            inventory.Prod.ProdName = Console.ReadLine();
-            Console.WriteLine("Product price");
-            inventory.Prod.ProdPrice = decimal.Parse(Console.ReadLine());
-            Console.WriteLine("Product Description");
-            inventory.Prod.ProdDescription = Console.ReadLine();
-            Console.WriteLine("Product category");
-            inventory.Prod.ProdCategory = Console.ReadLine();
-            Console.WriteLine("-----");
-            Console.WriteLine("Store number");
-            inventory.StoreNumber = int.Parse(Console.ReadLine());
-            Console.WriteLine("Quantity");
-            inventory.Quantity = int.Parse(Console.ReadLine());
             if (exceptionMessage != null)
             {
                 Console.WriteLine(exceptionMessage);
-            Console.WriteLine("-----");
+                Console.WriteLine("-----");
                 exceptionMessage = null;
             }
+            Console.WriteLine("Add a Product");
+            Console.WriteLine("-----");
+            inventory = new Inventory();
+            inventory.Prod = new Product();
+            while (inventory.Prod.ProdName == null)
+            {
+                try
+                {
+                    Console.WriteLine("Product name");
+                    inventory.Prod.ProdName = Console.ReadLine();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            while (inventory.Prod.ProdPrice.Equals(0))
+            {
+                try
+                {
+                    Console.WriteLine("Product price");
+                    inventory.Prod.ProdPrice = decimal.Parse(Console.ReadLine());
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            while (inventory.Prod.ProdDescription == null)
+            {
+                try
+                {
+                    Console.WriteLine("Product Description");
+                    inventory.Prod.ProdDescription = Console.ReadLine();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+
+            Console.WriteLine("-----");
+            inventory.StoreNumber = StorefrontView.storefront.StoreNumber;
+
+            while (inventory.Quantity <= 0)
+            {
+                try
+                {
+                    Console.WriteLine("Quantity");
+                    inventory.Quantity = int.Parse(Console.ReadLine());
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            Console.WriteLine("-----");
+
+
             Console.WriteLine("[0] Go Back");
-            Console.WriteLine("[1] Input Name");
-            Console.WriteLine("[2] Save Inventory");
+            Console.WriteLine("[1] Save Inventory");
         }
 
         public MenuType UserSelection()
@@ -51,32 +92,22 @@ namespace UserInterface
             switch (userSelection)
             {
                 case "0":
-                    return MenuType.InventoryMenu;
+                    return MenuType.StorefrontInventoryList;
                 case "1":
-                    try
-                    {
-                        return MenuType.InventoryList;
-                    }
-                    catch (Exception e)
-                    {
-                        exceptionMessage = e.Message;
-                        return MenuType.InventoryCreate;
-                    }
-                case "2":
                     try
                     {
                         Console.WriteLine(BL.Create(inventory));
                         BL.Save();
-                        return MenuType.InventoryList;
+                        return MenuType.StorefrontInventoryList;
                     }
                     catch (NullReferenceException e)
                     {
                         exceptionMessage = e.Message;
-                                            return MenuType.InventoryCreate;
+                        return MenuType.InventoryCreate;
 
                     }
                 default:
-                    exceptionMessage = ".....INVALID SELECTION...";
+                    exceptionMessage = "Invalid selection";
                     return MenuType.InventoryCreate;
             }
         }

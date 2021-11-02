@@ -52,7 +52,8 @@ namespace UserInterface
             Console.WriteLine("[id] | name | address");
             foreach (var item in items)
             {
-                Console.WriteLine($"[{item.StoreNumber}] | {item.StoreName} | {item.StoreAddress}");
+                StorefrontM storefrontM = new StorefrontM(item);
+                Console.WriteLine(storefrontM.ListView());
             }
 
 

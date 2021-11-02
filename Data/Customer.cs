@@ -25,7 +25,7 @@ namespace Data
                 {
                     throw new Exception("You must enter an email");
                 }
-                if (!Regex.IsMatch(value, @"^[a-z.+@]+$", RegexOptions.IgnoreCase))
+                if (!Regex.IsMatch(value, @"^[a-z0-9.+@]+$", RegexOptions.IgnoreCase))
                 {
                     throw new Exception("Email address is invalid");
                 }
@@ -41,11 +41,11 @@ namespace Data
             {
                 if (value == null)
                 {
-                    throw new Exception("You must enter an email");
+                    throw new Exception("You must enter an name");
                 }
-                if (!Regex.IsMatch(value, @"^[a-z]+$", RegexOptions.IgnoreCase))
+                if (!Regex.IsMatch(value, @"^[a-z -]+$", RegexOptions.IgnoreCase))
                 {
-                    throw new Exception("Email address is invalid");
+                    throw new Exception("Name is invalid");
                 }
                 _custName = value;
             }
@@ -62,7 +62,7 @@ namespace Data
                 }
                 if (!Regex.IsMatch(value, @"^[a-z0-9. ,-]+$", RegexOptions.IgnoreCase))
                 {
-                    throw new Exception("Email address is invalid");
+                    throw new Exception("Address is invalid");
                 }
                 _custAddress = value;
             }

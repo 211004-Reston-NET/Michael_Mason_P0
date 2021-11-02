@@ -14,9 +14,10 @@ namespace Business
         IEnumerable<Product> ListAllProducts(int storeId);
         IEnumerable<Storefront> ListAllStores();
         string CreateOrder(SOrder order);
-        void UpdateInventory(int orderId);
-        void UpdateTotalPrice(int orderId);
+        void UpdateInventory(SOrder entity);
+        void UpdateTotalPrice(SOrder entity);
         int CheckInventory(int storeId, int prodId, int quantity);
+        void DeleteOrder(SOrder entity);
     }
 
     public class LineItemBL : BaseBL<LineItem>, ILineItemBL
@@ -105,7 +106,7 @@ namespace Business
             return "order created";
         }
 
-        public void UpdateTotalPrice(int orderId)
+        public void UpdateTotalPrice(SOrder entity)
         {
             var configuration = new ConfigurationBuilder() //Configurationbuilder is the class that came from the Microsoft.extensions.configuration package
                    .SetBasePath(Directory.GetCurrentDirectory()) //Gets the current directory of the RRUI file path
@@ -117,17 +118,18 @@ namespace Business
 
             StoreManagerContext sOrderBL = new StoreManagerContext(options);
             StoreManagerContext prodBL = new StoreManagerContext(options);
-            var order = sOrderBL.SOrders.Single(o => o.OrderId.Equals(orderId));
-            var lines = base.GetAll().Where(l => l.OrderId.Equals(orderId));
+            //var order = sOrderBL.SOrders.Single(o => o.OrderId.Equals(entity.OrderId));
+            var lines = base.GetAll().Where(l => l.OrderId.Equals(entity.OrderId));
             foreach (var item in lines)
             {
                 var prod = prodBL.Products.Single(p => p.ProdId.Equals(item.ProdId));
-                order.TotalPrice += item.Quantity * prod.ProdPrice;
+                entity.TotalPrice += item.Quantity * prod.ProdPrice;
+                sOrderBL.Update(entity);
             }
             sOrderBL.SaveChanges();
         }
 
-        public void UpdateInventory(int orderId)
+        public void UpdateInventory(SOrder entity)
         {
             var configuration = new ConfigurationBuilder() //Configurationbuilder is the class that came from the Microsoft.extensions.configuration package
                    .SetBasePath(Directory.GetCurrentDirectory()) //Gets the current directory of the RRUI file path
@@ -138,13 +140,18 @@ namespace Business
                     .Options;
             StoreManagerContext invBL = new StoreManagerContext(options);
             StoreManagerContext ordBL = new StoreManagerContext(options);
-            var lines = ordBL.LineItems.Where(l => l.OrderId.Equals(orderId));
-            foreach (var item in lines)
+            List<LineItem> items = new List<LineItem>();
+            foreach (var item in ordBL.LineItems.Where(l => l.OrderId.Equals(entity.OrderId)))
             {
-                var inv = invBL.Inventories.Single(i => i.ProdId.Equals(item.ProdId));
-                inv.Quantity -= item.Quantity;
+                items.Add(item);
             }
-            invBL.SaveChanges();
+            foreach (var item in items)
+            {
+                Inventory inv = invBL.Inventories.Single(i => i.ProdId.Equals(item.ProdId));
+                inv.Quantity -= item.Quantity;
+                invBL.SaveChanges();
+            }
+            
         }
 
         public int CheckInventory(int storeId, int prodId, int quantity)
@@ -159,6 +166,20 @@ namespace Business
             StoreManagerContext invBL = new StoreManagerContext(options);
             var query =  invBL.Inventories.Single(c => c.StoreNumber.Equals(storeId) && c.ProdId.Equals(prodId));
             return query.Quantity;
+        }
+
+        public void DeleteOrder(SOrder entity)
+        {
+            var configuration = new ConfigurationBuilder() //Configurationbuilder is the class that came from the Microsoft.extensions.configuration package
+                   .SetBasePath(Directory.GetCurrentDirectory()) //Gets the current directory of the RRUI file path
+                   .AddJsonFile("appsetting.json") //Adds the appsetting.json file in our RRUI
+                   .Build(); //Builds our configuration
+            DbContextOptions<StoreManagerContext> options = new DbContextOptionsBuilder<StoreManagerContext>()
+                    .UseSqlServer(configuration.GetConnectionString("StoreManager"))
+                    .Options;
+            StoreManagerContext storeBL = new StoreManagerContext(options);
+            storeBL.Remove(entity);
+            storeBL.SaveChanges();
         }
     }
 }
