@@ -38,7 +38,8 @@ namespace UserInterface
             Console.WriteLine(customerM);
             Console.WriteLine("-----");
             Console.WriteLine("[0] Go Back");
-            Console.WriteLine("[1] Place an order");
+            Console.WriteLine("[1] View orders");
+            Console.WriteLine("[2] Place an order");
         }
 
         public MenuType UserSelection()
@@ -50,6 +51,8 @@ namespace UserInterface
                     customer = null;
                     return MenuType.CustomerMenu;
                 case "1":
+                    return MenuType.CustomerOrderList;
+                case "2":
                     return MenuType.SOrderCreate;
                 default:
                     exceptionMessage = "Invalid selection";

@@ -10,6 +10,7 @@ namespace UserInterface
     {
         private static string exceptionMessage;
         public static SOrder sOrder;
+        public static bool is_cust = true;
         private static ISOrderBL BL;
         public SOrderView(ISOrderBL bl)
         {
@@ -24,7 +25,6 @@ namespace UserInterface
                 exceptionMessage = null;
             }
            
-            sOrder = BL.GetById(SOrderCreate.sOrder.OrderId);
             sOrder.LineItems = BL.GetLineItemsByOrder(sOrder).ToList();
             Console.WriteLine("Order View");
             Console.WriteLine($"Order #{sOrder.OrderId} | Total: ${sOrder.TotalPrice}");
@@ -37,8 +37,15 @@ namespace UserInterface
             }
             Console.WriteLine("-----");
             
-            Console.WriteLine("[0] Process order");
-            Console.WriteLine("[1] Cancel order");
+            if (SOrderCreate.creating)
+            {
+                Console.WriteLine("[0] Done");
+                Console.WriteLine("[1] Cancel order");
+            }
+            else
+            {
+                Console.WriteLine("[0] Done");
+            }
         }
 
         public MenuType UserSelection()
@@ -47,7 +54,14 @@ namespace UserInterface
             switch (userSelection)
             {
                 case "0":
-                    return MenuType.MainMenu;
+                if (is_cust)
+                {
+                    return MenuType.CustomerView;
+                }
+                else
+                {
+                    return MenuType.StorefrontView;
+                }
                 case "1":
                         BL.Delete(sOrder);
                         BL.UpdateInventoryOnCancel(sOrder.OrderId);

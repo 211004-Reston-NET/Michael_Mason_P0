@@ -36,6 +36,7 @@ namespace UserInterface
         CustomerUpdate,
         CustomerView,
         CustomerDelete,
+        CustomerOrderList,
 
     //LINEITEM
         LineItemMenu,

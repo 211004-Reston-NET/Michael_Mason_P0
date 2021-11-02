@@ -28,7 +28,7 @@ namespace Models
 
         public override string ToString()
         {
-            var output = $@"Customer
+            var output = $@"Customer {this.CustNumber}
 -----
 Name: {this.CustName}
 Address: {this.CustAddress}
@@ -36,17 +36,6 @@ Email: {this.CustEmail}
 Phone: {this.CustPhone}
 -----
 ";
-            if (SOrders.Count() == 0)
-            {
-                output += "No orders";
-            }
-            else
-            {
-                foreach (var item in SOrders)
-                {
-                    output += $"order #{item.OrderId} | {item.TotalPrice}\n";
-                }
-            }
             return output;
 
         }

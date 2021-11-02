@@ -113,6 +113,8 @@ namespace UserInterface
                             BL.UpdateInventory(SOrderCreate.sOrder);
                             BL.UpdateTotalPrice(SOrderCreate.sOrder);
                             BL.Save();
+                            SOrderView.sOrder = SOrderCreate.sOrder;
+                            SOrderCreate.creating = false;
                             return MenuType.SOrderView;
                         }
                         else
@@ -122,17 +124,6 @@ namespace UserInterface
                         }
                     }
                     return MenuType.MainMenu;
-                case "2":
-                    try
-                    {
-                        exceptionMessage = BL.Save();
-                    }
-                    catch (NullReferenceException e)
-                    {
-                        exceptionMessage = e.Message;
-                    }
-                    SOrderCreate.sOrder = null;
-                    return MenuType.LineItemMenu;
                 default:
                     exceptionMessage = "Invalid selection";
                     return MenuType.LineItemCreate;

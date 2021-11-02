@@ -26,7 +26,7 @@ namespace UserInterface
                 Console.WriteLine("-----");
                 exceptionMessage = null;
             }
-            
+
             var searchPrompt = $@"Customer search
 [e] By email
 [n] By name
@@ -38,78 +38,80 @@ namespace UserInterface
 
             Console.WriteLine(searchPrompt);
             var searchBy = Console.ReadLine().ToLower();
+
             switch (searchBy)
             {
                 case "e":
-                    while (items.Count() == 0)
+
+                    try
                     {
-                        try
-                        {
-                            Console.WriteLine("Enter query");
-                            var userInput = Console.ReadLine().ToLower();
-                            items = BL.SearchByEmail(userInput);
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e.Message);
-                        }
+                        Console.WriteLine("Enter query");
+                        var userInput = Console.ReadLine().ToLower();
+                        items = BL.SearchByEmail(userInput);
                     }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+
                     break;
                 case "n":
-                    while (items.Count() == 0)
+
+                    try
                     {
-                        try
-                        {
-                            Console.WriteLine("Enter query");
-                            var userInput = Console.ReadLine().ToLower();
-                            items = BL.SearchByName(userInput);
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e.Message);
-                        }
+                        Console.WriteLine("Enter query");
+                        var userInput = Console.ReadLine().ToLower();
+                        items = BL.SearchByName(userInput);
                     }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+
                     break;
                 case "a":
-                    while (items.Count() == 0)
+
+                    try
                     {
-                        try
-                        {
-                            Console.WriteLine("Enter query");
-                            var userInput = Console.ReadLine().ToLower();
-                            items = BL.SearchByAddress(userInput);
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e.Message);
-                        }
+                        Console.WriteLine("Enter query");
+                        var userInput = Console.ReadLine().ToLower();
+                        items = BL.SearchByAddress(userInput);
                     }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+
                     break;
                 case "p":
-                    while (items.Count() == 0)
+
+                    try
                     {
-                        try
-                        {
-                            Console.WriteLine("Enter query");
-                            var userInput = Console.ReadLine().ToLower();
-                            items = BL.SearchByPhone(int.Parse(userInput));
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e.Message);
-                        }
+                        Console.WriteLine("Enter query");
+                        var userInput = Console.ReadLine().ToLower();
+                        items = BL.SearchByPhone(int.Parse(userInput));
                     }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+
+                    break;
+                default:
+                    exceptionMessage = "Invalid selection";
                     break;
             }
 
-            Console.WriteLine("-----");
 
+            bool found = false;
+            Console.WriteLine("-----");
             if (items.Count() == 0)
             {
                 Console.WriteLine("Not found");
             }
             else
             {
+                found = true;
                 foreach (var item in items)
                 {
                     CustomerM custM = new CustomerM(item);
@@ -120,7 +122,10 @@ namespace UserInterface
             Console.WriteLine("-------------------");
             Console.WriteLine("[0] Customer menu");
             Console.WriteLine("[1] Search again");
-            Console.WriteLine("[2] Select customer");
+            if (found)
+            {
+                Console.WriteLine("[2] Select customer");
+            }
         }
 
 

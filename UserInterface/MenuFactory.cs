@@ -57,6 +57,8 @@ namespace UserInterface
                     return new CustomerSearch(new CustomerBL(new Repository<Customer>(new StoreManagerContext(options))));
                 case MenuType.CustomerView:
                     return new CustomerView(new CustomerBL(new Repository<Customer>(new StoreManagerContext(options))));
+                case MenuType.CustomerOrderList:
+                    return new CustomerOrderList(new CustomerBL(new Repository<Customer>(new StoreManagerContext(options))));
 
                 // SOrder
                 case MenuType.SOrderMenu:

@@ -9,6 +9,7 @@ namespace UserInterface
     {
         public static SOrder sOrder;
         private static string exceptionMessage;
+        public static bool creating = false;
         private ISOrderBL BL;
         public SOrderCreate(ISOrderBL bl)
         {
@@ -26,25 +27,26 @@ namespace UserInterface
             Console.WriteLine("Create an Order");
             Console.WriteLine("-----");
             sOrder = new SOrder();
+            creating = true;
             sOrder.CustNumber = CustomerView.customer.CustNumber;
 
             foreach (var item in BL.ListAllStores())
+            {
+                Console.WriteLine($"[{item.StoreNumber}] | {item.StoreName}");
+            }
+            Console.WriteLine("-----");
+            while (!sOrder.StoreNumber.HasValue)
+            {
+                try
                 {
-                    Console.WriteLine($"[{item.StoreNumber}] | {item.StoreName}");
+                    Console.WriteLine("Select store id");
+                    sOrder.StoreNumber = int.Parse(Console.ReadLine());
                 }
-                Console.WriteLine("-----");
-                while (!sOrder.StoreNumber.HasValue)
+                catch (Exception e)
                 {
-                    try
-                    {
-                        Console.WriteLine("Select store id");
-                        sOrder.StoreNumber = int.Parse(Console.ReadLine());
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                    }
+                    Console.WriteLine(e.Message);
                 }
+            }
 
 
             Console.WriteLine("[0] Go Back");
@@ -57,8 +59,8 @@ namespace UserInterface
             switch (userSelection)
             {
                 case "0":
+                    creating = false;
                     return MenuType.CustomerView;
-
                 case "1":
                     try
                     {

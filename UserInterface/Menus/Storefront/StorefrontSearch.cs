@@ -48,19 +48,30 @@ namespace UserInterface
                     break;
             }
 
+            bool found = false;
             Console.WriteLine("-----");
             Console.WriteLine("[id] | name | address");
-            foreach (var item in items)
+            if (items.Count() == 0)
             {
-                StorefrontM storefrontM = new StorefrontM(item);
-                Console.WriteLine(storefrontM.ListView());
+                Console.WriteLine("Not found");
             }
-
+            else
+            {
+                found = true;
+                foreach (var item in items)
+                {
+                    StorefrontM storefrontM = new StorefrontM(item);
+                    Console.WriteLine(storefrontM.ListView());
+                }
+            }
 
             Console.WriteLine("-----");
             Console.WriteLine("[0] Back");
             Console.WriteLine("[1] Search again");
-            Console.WriteLine("[2] Select storefront");
+            if (found)
+            {
+                Console.WriteLine("[2] Select storefront");
+            }
         }
 
 

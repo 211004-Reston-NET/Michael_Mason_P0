@@ -5,13 +5,13 @@ using System.Linq;
 
 namespace UserInterface
 {
-    public class StorefrontOrderList : IMenu
+    public class CustomerOrderList : IMenu
     {
-        private static string exceptionMessage;
+                private static string exceptionMessage;
 
-        Storefront storefront;
-        private static IStorefrontBL BL;
-        public StorefrontOrderList(IStorefrontBL bl)
+        Customer customer;
+        private static ICustomerBL BL;
+        public CustomerOrderList(ICustomerBL bl)
         {
             BL = bl;
         }
@@ -25,8 +25,8 @@ namespace UserInterface
             }
 
             Console.WriteLine("Orders\n-----\n");
-            storefront = StorefrontView.storefront;
-            var orders = BL.GetOrdersByStore(storefront);
+            customer = CustomerView.customer;
+            var orders = BL.GetOrders(customer);
             if (orders.Count() == 0)
             {
                 Console.WriteLine("No orders yet");
@@ -35,38 +35,38 @@ namespace UserInterface
             {
                 foreach (var item in orders)
                 {
-                    var cust = BL.GetCustomerByOrder(item);
-                    Console.WriteLine($"order #{item.OrderId} | customer id: {cust.CustName} | {cust.CustEmail} | total price: {item.TotalPrice}");
+                    
+                    var store = BL.GetStoreByOrder(item);
+                    Console.WriteLine($"order #{item.OrderId} | : {item.StoreNumber} | {store.StoreName} {store.StoreAddress} | total price: {item.TotalPrice}");
                 }
             }
             Console.WriteLine("-----");
             Console.WriteLine("[0] Back");
-            Console.WriteLine("[1] View Order");
+            Console.WriteLine("[1] View order");
         }
 
         public MenuType UserSelection()
         {
             var userSelection = Console.ReadLine();
-            switch (userSelection)
+            switch(userSelection)
             {
                 case "0":
-                    return MenuType.StorefrontView;
+                    return MenuType.CustomerView;
                 case "1":
-                    try
-                    {
+                    try{
                         Console.WriteLine("Enter order id");
                         SOrderView.sOrder = BL.GetOrderById(int.Parse(Console.ReadLine()));
-                        SOrderView.is_cust = false;
+                        SOrderView.is_cust = true;
                         return MenuType.SOrderView;
                     }
-                    catch (Exception e)
+                    catch(Exception e)
                     {
                         Console.WriteLine(e.Message);
                         return MenuType.CustomerOrderList;
                     }
                 default:
                     exceptionMessage = "Invalid selection";
-                    return MenuType.StorefrontOrderList;
+                    return MenuType.CustomerOrderList;
             }
         }
     }
