@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Business;
 using Data;
 using Models;
@@ -19,19 +20,20 @@ namespace UserInterface
 
         public void Menu()
         {
-            IEnumerable<Storefront> items = BL.GetAll();
+            IEnumerable<Storefront> items = BL.GetAll().ToList();
 
             Console.WriteLine("Storefront Listing");
-            Console.WriteLine("----------------");
+            Console.WriteLine("-----");
             foreach (var item in items)
             {
-                Console.WriteLine($"[{item.StoreNumber}] {item.StoreName}, {item.StoreAddress}");
+                StorefrontM storefrontM = new StorefrontM(item);
+                Console.WriteLine(storefrontM.ListView());
             }
-            Console.WriteLine("----------------");
+            Console.WriteLine("-----");
             if (exceptionMessage != null)
             {
                 Console.WriteLine(exceptionMessage);
-                Console.WriteLine("----------------");
+                Console.WriteLine("-----");
                 exceptionMessage = null;
             }
             Console.WriteLine("[0] Back to Storefront Menu");
@@ -59,7 +61,7 @@ namespace UserInterface
                         }
                     return MenuType.StorefrontView;
                 default:
-                    exceptionMessage = "INVALID SELECTION";
+                    exceptionMessage = "Invalid selection";
                     return MenuType.StorefrontList;
             }
         }

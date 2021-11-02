@@ -23,9 +23,9 @@ namespace Data
             {
                 if (value == null)
                 {
-                    throw new Exception("You must enter an email");
+                    throw new Exception("You must enter a name");
                 }
-                if (!Regex.IsMatch(value, @"^[a-z.' !]+$", RegexOptions.IgnoreCase))
+                if (!Regex.IsMatch(value, @"^[a-z0-9.' !]+$", RegexOptions.IgnoreCase))
                 {
                     throw new Exception("Store name is invalid");
                 }

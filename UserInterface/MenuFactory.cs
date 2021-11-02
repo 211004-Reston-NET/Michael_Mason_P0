@@ -41,6 +41,10 @@ namespace UserInterface
                     return new StorefrontSearch(new StorefrontBL(new Repository<Storefront>(new StoreManagerContext(options))));
                 case MenuType.StorefrontView:
                     return new StorefrontView(new StorefrontBL(new Repository<Storefront>(new StoreManagerContext(options))));
+                case MenuType.StorefrontInventoryList:
+                    return new StorefrontInventoryList(new StorefrontBL(new Repository<Storefront>(new StoreManagerContext(options))));
+                case MenuType.StorefrontOrderList:
+                    return new StorefrontOrderList(new StorefrontBL(new Repository<Storefront>(new StoreManagerContext(options))));
 
                 //CUSTOMER
                 case MenuType.CustomerMenu:
@@ -53,6 +57,8 @@ namespace UserInterface
                     return new CustomerSearch(new CustomerBL(new Repository<Customer>(new StoreManagerContext(options))));
                 case MenuType.CustomerView:
                     return new CustomerView(new CustomerBL(new Repository<Customer>(new StoreManagerContext(options))));
+                case MenuType.CustomerOrderList:
+                    return new CustomerOrderList(new CustomerBL(new Repository<Customer>(new StoreManagerContext(options))));
 
                 // SOrder
                 case MenuType.SOrderMenu:

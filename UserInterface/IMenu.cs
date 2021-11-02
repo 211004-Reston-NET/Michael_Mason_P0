@@ -25,6 +25,8 @@ namespace UserInterface
         StorefrontUpdate,
         StorefrontView,
         StorefrontDelete,
+        StorefrontInventoryList,
+        StorefrontOrderList,
 
         //CUSTOMER
         CustomerMenu,
@@ -34,6 +36,7 @@ namespace UserInterface
         CustomerUpdate,
         CustomerView,
         CustomerDelete,
+        CustomerOrderList,
 
     //LINEITEM
         LineItemMenu,

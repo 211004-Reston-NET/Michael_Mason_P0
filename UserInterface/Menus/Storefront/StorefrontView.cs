@@ -37,28 +37,12 @@ namespace UserInterface
                 StorefrontList.storefront = null;
             }
 
-            Console.WriteLine("Storefront View");
-            Console.WriteLine($"Storefront: {storefront.StoreName} | {storefront.StoreAddress}");
+            StorefrontM storefrontM = new StorefrontM(storefront);
+            Console.WriteLine(storefrontM);
             Console.WriteLine("-----");
-            Console.WriteLine("Inventory");
-            Console.WriteLine("[id] | Product Name | Quantity");
-            inventory = BL.GetInventoryByStore(storefront.StoreNumber).ToList();
-            foreach (var item in inventory)
-            {
-                Console.WriteLine($"[{item.InvId}] | {BL.GetProductByProdId((int)item.ProdId).ProdName} | {item.Quantity}");
-            }
-            Console.WriteLine("-----");
-
-            var orders = BL.GetOrdersByStore(storefront);
-            foreach (var item in orders)
-            {
-                var cust = BL.GetCustomerByOrder(item);
-                Console.WriteLine($"order #{item.OrderId} | customer id: {cust.CustName} | {cust.CustEmail} | total price: {item.TotalPrice}");
-            }
-            Console.WriteLine("-----");
-            Console.WriteLine("[0] Go Back");
-            Console.WriteLine("[1] Update inventory");
-            Console.WriteLine("[2] Begin order");
+            Console.WriteLine("[0] Back");
+            Console.WriteLine("[1] View Inventory");
+            Console.WriteLine("[2] View Orders");
         }
 
 
@@ -70,15 +54,11 @@ namespace UserInterface
                 case "0":
                     return MenuType.StorefrontMenu;
                 case "1":
-                    Console.WriteLine("Enter product id");
-                    var invId = int.Parse(Console.ReadLine());
-                    Console.WriteLine("Enter new quantity");
-                    Console.WriteLine(BL.UpdateInventory(invId, int.Parse(Console.ReadLine())));
-                    return MenuType.StorefrontView;
+                    return MenuType.StorefrontInventoryList;
                 case "2":
-                    return MenuType.SOrderCreate;
+                    return MenuType.StorefrontOrderList;
                 default:
-                    exceptionMessage = ".....INVALID SELECTION...";
+                    exceptionMessage = "Invalid selection";
                     return MenuType.StorefrontMenu;
             }
         }

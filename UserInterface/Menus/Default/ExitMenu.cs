@@ -3,12 +3,18 @@ namespace UserInterface
 {
     public class ExitMenu : IMenu
     {
+        public static string exceptionMessage;
         public void Menu(){}
 
         public MenuType UserSelection()
         {
-            Console.WriteLine("Are you sure you want to exit?");
-            Console.WriteLine("[Y] or [N]");
+            if (exceptionMessage != null)
+            {
+                Console.WriteLine(exceptionMessage);
+                Console.WriteLine("-----");
+                exceptionMessage = null;
+            }
+            Console.WriteLine("Are you sure you want to exit? [y]/[n]");
             string userSelection = Console.ReadLine().ToLower();
             switch(userSelection)
             {
@@ -18,9 +24,7 @@ namespace UserInterface
                 case "n":
                     return MenuType.MainMenu;
                 default:
-                    Console.WriteLine("Please input a valid response!");
-                    Console.WriteLine("Press Enter to continue");
-                    Console.ReadLine();
+                    exceptionMessage = "Invalid selection";
                     return MenuType.ExitMenu;      
             }
         }

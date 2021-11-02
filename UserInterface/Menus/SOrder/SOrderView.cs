@@ -10,6 +10,7 @@ namespace UserInterface
     {
         private static string exceptionMessage;
         public static SOrder sOrder;
+        public static bool is_cust = true;
         private static ISOrderBL BL;
         public SOrderView(ISOrderBL bl)
         {
@@ -23,7 +24,7 @@ namespace UserInterface
                 Console.WriteLine("-------------");
                 exceptionMessage = null;
             }
-            sOrder = BL.GetById(SOrderCreate.sOrder.OrderId);
+           
             sOrder.LineItems = BL.GetLineItemsByOrder(sOrder).ToList();
             Console.WriteLine("Order View");
             Console.WriteLine($"Order #{sOrder.OrderId} | Total: ${sOrder.TotalPrice}");
@@ -34,10 +35,17 @@ namespace UserInterface
 
                 Console.WriteLine($"product id: {BL.GetProductById((int)item.ProdId).ProdName} | price/unit: {BL.GetProductById((int)item.ProdId).ProdPrice} | quantity: {item.Quantity}");
             }
-            Console.WriteLine("-------------");
+            Console.WriteLine("-----");
             
-            Console.WriteLine("[0] Process order");
-            Console.WriteLine("[1] Cancel order");
+            if (SOrderCreate.creating)
+            {
+                Console.WriteLine("[0] Done");
+                Console.WriteLine("[1] Cancel order");
+            }
+            else
+            {
+                Console.WriteLine("[0] Done");
+            }
         }
 
         public MenuType UserSelection()
@@ -46,13 +54,21 @@ namespace UserInterface
             switch (userSelection)
             {
                 case "0":
-                    return MenuType.SOrderMenu;
+                if (is_cust)
+                {
+                    return MenuType.CustomerView;
+                }
+                else
+                {
+                    return MenuType.StorefrontView;
+                }
                 case "1":
                         BL.Delete(sOrder);
                         BL.UpdateInventoryOnCancel(sOrder.OrderId);
+                        BL.Save();
                         return MenuType.MainMenu;
                 default:
-                    exceptionMessage = ".....INVALID SELECTION...";
+                    exceptionMessage = "Invalid selection";
                     return MenuType.SOrderMenu;
             }
         }

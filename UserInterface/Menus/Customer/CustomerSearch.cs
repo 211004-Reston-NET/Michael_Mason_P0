@@ -10,6 +10,7 @@ namespace UserInterface
     public class CustomerSearch : IMenu
     {
         private static string exceptionMessage;
+        public static Customer customer;
         public static string email;
         private ICustomerBL BL;
         public CustomerSearch(ICustomerBL bl)
@@ -19,6 +20,13 @@ namespace UserInterface
 
         public void Menu()
         {
+            if (exceptionMessage != null)
+            {
+                Console.WriteLine(exceptionMessage);
+                Console.WriteLine("-----");
+                exceptionMessage = null;
+            }
+
             var searchPrompt = $@"Customer search
 [e] By email
 [n] By name
@@ -30,35 +38,80 @@ namespace UserInterface
 
             Console.WriteLine(searchPrompt);
             var searchBy = Console.ReadLine().ToLower();
-            Console.WriteLine("Enter query");
+
             switch (searchBy)
             {
                 case "e":
-                    var userInput = Console.ReadLine().ToLower();
-                    items = BL.SearchByEmail(userInput);
+
+                    try
+                    {
+                        Console.WriteLine("Enter query");
+                        var userInput = Console.ReadLine().ToLower();
+                        items = BL.SearchByEmail(userInput);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+
                     break;
                 case "n":
-                    userInput = Console.ReadLine().ToLower();
-                    items = BL.SearchByName(userInput);
+
+                    try
+                    {
+                        Console.WriteLine("Enter query");
+                        var userInput = Console.ReadLine().ToLower();
+                        items = BL.SearchByName(userInput);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+
                     break;
                 case "a":
-                    userInput = Console.ReadLine().ToLower();
-                    items = BL.SearchByAddress(userInput);
+
+                    try
+                    {
+                        Console.WriteLine("Enter query");
+                        var userInput = Console.ReadLine().ToLower();
+                        items = BL.SearchByAddress(userInput);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+
                     break;
                 case "p":
-                    userInput = Console.ReadLine().ToLower();
-                    items = BL.SearchByPhone(int.Parse(userInput));
+
+                    try
+                    {
+                        Console.WriteLine("Enter query");
+                        var userInput = Console.ReadLine().ToLower();
+                        items = BL.SearchByPhone(int.Parse(userInput));
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+
+                    break;
+                default:
+                    exceptionMessage = "Invalid selection";
                     break;
             }
 
-            Console.WriteLine("-----");
 
+            bool found = false;
+            Console.WriteLine("-----");
             if (items.Count() == 0)
             {
                 Console.WriteLine("Not found");
             }
             else
             {
+                found = true;
                 foreach (var item in items)
                 {
                     CustomerM custM = new CustomerM(item);
@@ -69,6 +122,10 @@ namespace UserInterface
             Console.WriteLine("-------------------");
             Console.WriteLine("[0] Customer menu");
             Console.WriteLine("[1] Search again");
+            if (found)
+            {
+                Console.WriteLine("[2] Select customer");
+            }
         }
 
 
@@ -82,8 +139,22 @@ namespace UserInterface
                     return MenuType.CustomerMenu;
                 case "1":
                     return MenuType.CustomerSearch;
+                case "2":
+                    while (customer == null)
+                    {
+                        try
+                        {
+                            Console.WriteLine("Enter customer id");
+                            customer = BL.GetById(int.Parse(Console.ReadLine()));
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
+                    }
+                    return MenuType.CustomerView;
                 default:
-                    exceptionMessage = "INVALID SELECTION";
+                    exceptionMessage = "Invalid selection";
                     return MenuType.CustomerSearch;
             }
         }

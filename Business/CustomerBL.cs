@@ -15,6 +15,8 @@ namespace Business
         IEnumerable<Customer> SearchByPhone(int query);
         IEnumerable<Customer> SearchByEmail(string query);
         IEnumerable<SOrder> GetOrders(Customer entity);
+        Storefront GetStoreByOrder(SOrder entity);
+        SOrder GetOrderById(int id);
     }
 
     public class CustomerBL : BaseBL<Customer>, ICustomerBL
@@ -55,6 +57,34 @@ namespace Business
                     
             StoreManagerContext custBL = new StoreManagerContext(options);
             return custBL.SOrders.Where(o => o.CustNumber.Equals(entity.CustNumber));
+        }
+
+        public Storefront GetStoreByOrder(SOrder entity)
+        {
+            var configuration = new ConfigurationBuilder() //Configurationbuilder is the class that came from the Microsoft.extensions.configuration package
+                   .SetBasePath(Directory.GetCurrentDirectory()) //Gets the current directory of the RRUI file path
+                   .AddJsonFile("appsetting.json") //Adds the appsetting.json file in our RRUI
+                   .Build(); //Builds our configuration
+            DbContextOptions<StoreManagerContext> options = new DbContextOptionsBuilder<StoreManagerContext>()
+                    .UseSqlServer(configuration.GetConnectionString("StoreManager"))
+                    .Options;
+                    
+            StoreManagerContext custBL = new StoreManagerContext(options);
+            return custBL.Storefronts.Single(o => o.StoreNumber.Equals(entity.StoreNumber));
+        }
+
+        public SOrder GetOrderById(int id)
+        {
+            var configuration = new ConfigurationBuilder() //Configurationbuilder is the class that came from the Microsoft.extensions.configuration package
+                   .SetBasePath(Directory.GetCurrentDirectory()) //Gets the current directory of the RRUI file path
+                   .AddJsonFile("appsetting.json") //Adds the appsetting.json file in our RRUI
+                   .Build(); //Builds our configuration
+            DbContextOptions<StoreManagerContext> options = new DbContextOptionsBuilder<StoreManagerContext>()
+                    .UseSqlServer(configuration.GetConnectionString("StoreManager"))
+                    .Options;
+                    
+            StoreManagerContext custBL = new StoreManagerContext(options);
+            return custBL.SOrders.Single(o => o.OrderId.Equals(id));
         }
     }
 }

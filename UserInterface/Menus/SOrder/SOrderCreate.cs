@@ -9,6 +9,7 @@ namespace UserInterface
     {
         public static SOrder sOrder;
         private static string exceptionMessage;
+        public static bool creating = false;
         private ISOrderBL BL;
         public SOrderCreate(ISOrderBL bl)
         {
@@ -26,15 +27,27 @@ namespace UserInterface
             Console.WriteLine("Create an Order");
             Console.WriteLine("-----");
             sOrder = new SOrder();
+            creating = true;
+            sOrder.CustNumber = CustomerView.customer.CustNumber;
+
             foreach (var item in BL.ListAllStores())
             {
                 Console.WriteLine($"[{item.StoreNumber}] | {item.StoreName}");
             }
             Console.WriteLine("-----");
-            Console.WriteLine("Select store id");
-            sOrder.StoreNumber = int.Parse(Console.ReadLine());
-            Console.WriteLine("Enter customer email");
-            sOrder.CustNumber = BL.GetCustomerByEmail(Console.ReadLine().ToLower()).CustNumber;
+            while (!sOrder.StoreNumber.HasValue)
+            {
+                try
+                {
+                    Console.WriteLine("Select store id");
+                    sOrder.StoreNumber = int.Parse(Console.ReadLine());
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+
 
             Console.WriteLine("[0] Go Back");
             Console.WriteLine("[1] Add line item");
@@ -46,8 +59,8 @@ namespace UserInterface
             switch (userSelection)
             {
                 case "0":
-                    return MenuType.SOrderMenu;
-                
+                    creating = false;
+                    return MenuType.CustomerView;
                 case "1":
                     try
                     {
@@ -61,7 +74,7 @@ namespace UserInterface
                     }
                     return MenuType.LineItemCreate;
                 default:
-                    exceptionMessage = ".....INVALID SELECTION...";
+                    exceptionMessage = "Invalid selection";
                     return MenuType.SOrderCreate;
             }
         }

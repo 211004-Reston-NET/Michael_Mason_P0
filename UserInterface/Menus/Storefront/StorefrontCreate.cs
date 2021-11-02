@@ -21,16 +21,37 @@ namespace UserInterface
             if (exceptionMessage != null)
             {
                 Console.WriteLine(exceptionMessage);
-                Console.WriteLine("-----------------");
+                Console.WriteLine("-----");
                 exceptionMessage = null;
             }
             Console.WriteLine("Create a Storefront");
             Console.WriteLine("-----");
-            Console.WriteLine($"Enter name");
-            storefront.StoreName = Console.ReadLine();
+            while (storefront.StoreName == null)
+            {
+                try
+                {
+                    Console.WriteLine($"Enter name");
+                    storefront.StoreName = Console.ReadLine();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
             Console.WriteLine("-----");
-            Console.WriteLine("Enter address");
-            storefront.StoreAddress = Console.ReadLine();
+            while (storefront.StoreAddress == null)
+            {
+                try
+                {
+                    Console.WriteLine("Enter address");
+                    storefront.StoreAddress = Console.ReadLine();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+
             Console.WriteLine("-----");
             Console.WriteLine("[0] Go Back");
             Console.WriteLine("[1] Save Storefront");
@@ -56,7 +77,7 @@ namespace UserInterface
                     }
                     return MenuType.StorefrontList;
                 default:
-                    exceptionMessage = ".....INVALID SELECTION...";
+                    exceptionMessage = "Invalid selection";
                     return MenuType.StorefrontCreate;
             }
         }
