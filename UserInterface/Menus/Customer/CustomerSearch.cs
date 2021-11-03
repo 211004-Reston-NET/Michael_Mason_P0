@@ -12,6 +12,8 @@ namespace UserInterface
         private static string exceptionMessage;
         public static Customer customer;
         public static string email;
+        List<int> custIds = new List<int>();
+
         private ICustomerBL BL;
         public CustomerSearch(ICustomerBL bl)
         {
@@ -38,7 +40,6 @@ namespace UserInterface
 
             Console.WriteLine(searchPrompt);
             var searchBy = Console.ReadLine().ToLower();
-
             switch (searchBy)
             {
                 case "e":
@@ -114,6 +115,7 @@ namespace UserInterface
                 found = true;
                 foreach (var item in items)
                 {
+                    custIds.Add(item.CustNumber);
                     CustomerM custM = new CustomerM(item);
                     Console.WriteLine(custM.ToList());
                 }
@@ -140,12 +142,22 @@ namespace UserInterface
                 case "1":
                     return MenuType.CustomerSearch;
                 case "2":
-                    while (customer == null)
+                    int selection = 0;
+                    while (selection <= 0)
                     {
                         try
                         {
                             Console.WriteLine("Enter customer id");
-                            customer = BL.GetById(int.Parse(Console.ReadLine()));
+                            selection = int.Parse(Console.ReadLine());
+                            if (custIds.Contains(selection))
+                            {
+                                customer = BL.GetById(selection);
+                            }
+                            else
+                            {
+                                selection = 0;
+                                throw new Exception("Invalid selection");
+                            }
                         }
                         catch (Exception e)
                         {

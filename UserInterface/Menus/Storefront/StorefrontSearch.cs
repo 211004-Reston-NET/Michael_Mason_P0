@@ -11,6 +11,7 @@ namespace UserInterface
     {
         private static string exceptionMessage;
         public static Storefront storefront;
+        List<int> storeIds = new List<int>();
         private IStorefrontBL BL;
         public StorefrontSearch(IStorefrontBL bl)
         {
@@ -60,6 +61,7 @@ namespace UserInterface
                 found = true;
                 foreach (var item in items)
                 {
+                    storeIds.Add(item.StoreNumber);
                     StorefrontM storefrontM = new StorefrontM(item);
                     Console.WriteLine(storefrontM.ListView());
                 }
@@ -86,17 +88,30 @@ namespace UserInterface
                 case "1":
                     return MenuType.StorefrontSearch;
                 case "2":
-                    try
+                    int selection = 0;
+                    while (selection <= 0)
                     {
-                        Console.WriteLine("Enter storefront id");
-                        storefront = BL.GetById(int.Parse(Console.ReadLine()));
-                        return MenuType.StorefrontView;
+                        try
+                        {
+                            Console.WriteLine("Enter storefront id");
+                            selection = int.Parse(Console.ReadLine());
+                            if (storeIds.Contains(selection))
+                            {
+                                storefront = BL.GetById(selection);
+                            }
+                            else
+                            {
+                                selection = 0;
+                                throw new Exception("Invalid selection");
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
                     }
-                    catch (FormatException e)
-                    {
-                        exceptionMessage = e.Message;
-                        return MenuType.StorefrontSearch;
-                    }
+                    return MenuType.StorefrontView;
+
                 default:
                     exceptionMessage = "INVALID SELECTION";
                     return MenuType.StorefrontSearch;

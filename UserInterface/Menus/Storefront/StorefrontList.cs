@@ -11,6 +11,7 @@ namespace UserInterface
     {
         static string exceptionMessage;
         public static Storefront storefront;
+        List<int> storeIds = new List<int>();
 
         private IStorefrontBL BL;
         public StorefrontList(IStorefrontBL bl)
@@ -20,22 +21,24 @@ namespace UserInterface
 
         public void Menu()
         {
-            IEnumerable<Storefront> items = BL.GetAll().ToList();
-
-            Console.WriteLine("Storefront Listing");
-            Console.WriteLine("-----");
-            foreach (var item in items)
-            {
-                StorefrontM storefrontM = new StorefrontM(item);
-                Console.WriteLine(storefrontM.ListView());
-            }
-            Console.WriteLine("-----");
             if (exceptionMessage != null)
             {
                 Console.WriteLine(exceptionMessage);
                 Console.WriteLine("-----");
                 exceptionMessage = null;
             }
+
+            IEnumerable<Storefront> items = BL.GetAll().ToList();
+
+            Console.WriteLine("Storefront Listing");
+            Console.WriteLine("-----");
+            foreach (var item in items)
+            {
+                storeIds.Add(item.StoreNumber);
+                StorefrontM storefrontM = new StorefrontM(item);
+                Console.WriteLine(storefrontM.ListView());
+            }
+            Console.WriteLine("-----");
             Console.WriteLine("[0] Back to Storefront Menu");
             Console.WriteLine("[1] Select Storefront");
         }
@@ -48,17 +51,31 @@ namespace UserInterface
                 case "0":
                     return MenuType.StorefrontMenu;
                 case "1":
+                    int selection = 0;
+                    while (selection <= 0)
+                    {
                         try
                         {
                             Console.WriteLine("Enter storefront number");
-                            string userInput = (Console.ReadLine());
-                            storefront = BL.GetById(int.Parse(userInput));
+                            selection = int.Parse(Console.ReadLine());
+                            if (storeIds.Contains(selection))
+                            {
+                                storefront = BL.GetById(selection);
+                            }
+                            else
+                            {
+                                selection = 0;
+                                throw new Exception("Invalid selection");
+                            }
+
                         }
-                        catch (FormatException)
+                        catch (Exception)
                         {
-                            exceptionMessage = "You must enter a name";
+                            exceptionMessage = "Invalid selection";
                             return MenuType.StorefrontList;
                         }
+                    }
+
                     return MenuType.StorefrontView;
                 default:
                     exceptionMessage = "Invalid selection";
